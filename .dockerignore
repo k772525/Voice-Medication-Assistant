@@ -29,6 +29,7 @@ logs/
 # 環境檔案 (敏感資訊)
 .env
 *.env
+.claude
 
 # 備份檔案
 *.bak
@@ -54,3 +55,4 @@ docs/
 install_fonts.sh
 deploy_gcp_fonts.md
 test_font_display.py
+setup_richmenu.py
