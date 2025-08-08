@@ -341,7 +341,7 @@ def generate_camera_guide_menu():
                     "action": {
                         "type": "uri",
                         "label": "📷 開啟相機",
-                        "uri": "line://nv/camera/"
+                        "uri": "https://line.me/R/nv/camera/normal"
                     },
                     "contents": [
                         {

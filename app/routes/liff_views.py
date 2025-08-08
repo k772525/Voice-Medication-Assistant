@@ -503,6 +503,69 @@ def get_family_list_api(user_id):
         current_app.logger.error(f"獲取家人列表失敗: {e}")
         return jsonify({"error": "獲取家人列表失敗"}), 500
 
+@liff_bp.route('/api/ai_analysis', methods=['POST'])
+def ai_health_analysis_api():
+    """AI 健康分析 API"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "缺少請求資料"}), 400
+        
+        user_id = data.get('userId')
+        target_person = data.get('targetPerson', '本人')
+        health_data = data.get('healthData', [])
+        
+        if not user_id:
+            return jsonify({"error": "缺少用戶ID"}), 400
+        
+        current_app.logger.info(f"開始 AI 健康分析 - 用戶: {user_id}, 對象: {target_person}, 數據點: {len(health_data)}")
+        
+        # 導入健康分析服務
+        from app.services.health_analysis_service import HealthAnalysisService
+        
+        # 創建分析服務實例
+        analysis_service = HealthAnalysisService()
+        
+        # 執行分析
+        analysis_result = analysis_service.analyze_health_data(user_id, target_person, health_data)
+        
+        current_app.logger.info(f"AI 健康分析完成 - 用戶: {user_id}, 洞察數: {len(analysis_result.get('insights', []))}")
+        
+        return jsonify(analysis_result)
+        
+    except Exception as e:
+        current_app.logger.error(f"AI 健康分析失敗: {e}")
+        import traceback
+        current_app.logger.error(f"錯誤詳情: {traceback.format_exc()}")
+        
+        # 返回錯誤回應
+        error_response = {
+            'insights': [
+                {
+                    'type': 'warning',
+                    'message': 'AI 分析服務暫時無法使用'
+                }
+            ],
+            'scores': {
+                'overall': 0,
+                'weight': 0,
+                'bloodPressure': 0,
+                'bloodSugar': 0,
+                'temperature': 0,
+                'bloodOxygen': 0
+            },
+            'recommendations': [
+                {
+                    'title': '服務維護',
+                    'content': '分析服務正在維護中，請稍後重試。',
+                    'priority': 'low'
+                }
+            ],
+            'error': str(e)
+        }
+        
+        return jsonify(error_response), 500
+
 # 移除背景分析函數，現在改為在 prescription_handler 中同步處理
 
 # --- END OF FILE: app/routes/liff_views.py ---

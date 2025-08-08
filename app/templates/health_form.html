@@ -11,7 +11,7 @@
     <style>
         /* 應用程式的自訂樣式 */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
+
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -33,7 +33,7 @@
             background: linear-gradient(145deg, #ffffff, #f8fafc);
             border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: 
+            box-shadow:
                 0 10px 25px -5px rgba(0, 0, 0, 0.1),
                 0 4px 6px -2px rgba(0, 0, 0, 0.05),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -62,7 +62,7 @@
 
         .dashboard-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 
+            box-shadow:
                 0 20px 40px -8px rgba(0, 0, 0, 0.15),
                 0 8px 16px -4px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -100,12 +100,19 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
                 transform: translateY(0);
             }
+
             40% {
                 transform: translateY(-10px);
             }
+
             60% {
                 transform: translateY(-5px);
             }
@@ -115,9 +122,11 @@
             0% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.1);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -127,9 +136,11 @@
             0% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-8px);
             }
+
             100% {
                 transform: translateY(0px);
             }
@@ -139,15 +150,19 @@
             0% {
                 transform: scale(1);
             }
+
             14% {
                 transform: scale(1.2);
             }
+
             28% {
                 transform: scale(1);
             }
+
             42% {
                 transform: scale(1.2);
             }
+
             70% {
                 transform: scale(1);
             }
@@ -155,10 +170,10 @@
 
         /* 圖表容器美化 */
         .chart-wrapper {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 
+            box-shadow:
                 0 20px 40px -12px rgba(0, 0, 0, 0.15),
                 0 8px 16px -4px rgba(0, 0, 0, 0.1),
                 inset 0 2px 4px rgba(255, 255, 255, 0.8);
@@ -174,12 +189,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(102, 126, 234, 0.05) 0%, 
-                rgba(118, 75, 162, 0.05) 25%,
-                rgba(255, 107, 107, 0.05) 50%,
-                rgba(78, 205, 196, 0.05) 75%,
-                rgba(249, 168, 37, 0.05) 100%);
+            background: linear-gradient(45deg,
+                    rgba(102, 126, 234, 0.05) 0%,
+                    rgba(118, 75, 162, 0.05) 25%,
+                    rgba(255, 107, 107, 0.05) 50%,
+                    rgba(78, 205, 196, 0.05) 75%,
+                    rgba(249, 168, 37, 0.05) 100%);
             pointer-events: none;
         }
 
@@ -193,10 +208,10 @@
 
         /* 全屏圖表樣式 */
         .chart-container-fullscreen {
-            background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.95));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
             border-radius: 24px;
             padding: 30px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.15),
                 0 10px 20px -5px rgba(0, 0, 0, 0.1),
                 inset 0 2px 4px rgba(255, 255, 255, 0.9);
@@ -207,10 +222,10 @@
         }
 
         .chart-wrapper-large {
-            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 
+            box-shadow:
                 0 15px 30px -8px rgba(0, 0, 0, 0.1),
                 0 6px 12px -3px rgba(0, 0, 0, 0.08),
                 inset 0 2px 4px rgba(255, 255, 255, 0.8);
@@ -227,12 +242,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(102, 126, 234, 0.03) 0%, 
-                rgba(118, 75, 162, 0.03) 25%,
-                rgba(255, 107, 107, 0.03) 50%,
-                rgba(78, 205, 196, 0.03) 75%,
-                rgba(249, 168, 37, 0.03) 100%);
+            background: linear-gradient(45deg,
+                    rgba(102, 126, 234, 0.03) 0%,
+                    rgba(118, 75, 162, 0.03) 25%,
+                    rgba(255, 107, 107, 0.03) 50%,
+                    rgba(78, 205, 196, 0.03) 75%,
+                    rgba(249, 168, 37, 0.03) 100%);
             pointer-events: none;
         }
 
@@ -248,10 +263,10 @@
 
         /* 中等大小圖表樣式 - 優化版 */
         .chart-wrapper-medium {
-            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
             border-radius: 16px;
             padding: 20px;
-            box-shadow: 
+            box-shadow:
                 0 8px 20px -6px rgba(0, 0, 0, 0.08),
                 0 4px 8px -2px rgba(0, 0, 0, 0.05),
                 inset 0 1px 2px rgba(255, 255, 255, 0.9);
@@ -269,12 +284,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(102, 126, 234, 0.03) 0%, 
-                rgba(118, 75, 162, 0.03) 25%,
-                rgba(255, 107, 107, 0.03) 50%,
-                rgba(78, 205, 196, 0.03) 75%,
-                rgba(249, 168, 37, 0.03) 100%);
+            background: linear-gradient(45deg,
+                    rgba(102, 126, 234, 0.03) 0%,
+                    rgba(118, 75, 162, 0.03) 25%,
+                    rgba(255, 107, 107, 0.03) 50%,
+                    rgba(78, 205, 196, 0.03) 75%,
+                    rgba(249, 168, 37, 0.03) 100%);
             pointer-events: none;
         }
 
@@ -291,10 +306,10 @@
 
         /* 分頁控制樣式優化 */
         .pagination-container {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
             border-radius: 12px;
             padding: 12px 16px;
-            box-shadow: 
+            box-shadow:
                 0 4px 12px -3px rgba(0, 0, 0, 0.06),
                 0 2px 4px -1px rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -394,13 +409,63 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
+        .back-button {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            backdrop-filter: blur(10px);
+            border: 2px solid #e5e7eb !important;
+            box-shadow:
+                0 4px 12px -2px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(156, 163, 175, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            border-color: #9ca3af !important;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(249, 250, 251, 1));
+            box-shadow:
+                0 8px 20px -4px rgba(0, 0, 0, 0.15),
+                0 4px 8px -2px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .back-button:active {
+            transform: translateY(0px);
+            box-shadow:
+                0 2px 8px -2px rgba(0, 0, 0, 0.1),
+                0 1px 2px -1px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
         .loading-spinner {
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .fade-in {
@@ -408,8 +473,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .slide-up {
@@ -417,8 +489,15 @@
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .input-field {
@@ -460,6 +539,410 @@
             margin-top: 0.5rem;
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
+
+        /* 返回按鈕特殊樣式 */
+        .back-button {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            backdrop-filter: blur(10px);
+            border: 3px solid #d1d5db !important;
+            border-radius: 12px;
+            box-shadow:
+                0 6px 16px -4px rgba(0, 0, 0, 0.12),
+                0 3px 6px -2px rgba(0, 0, 0, 0.08),
+                inset 0 2px 4px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(156, 163, 175, 0.15), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            border-color: #9ca3af !important;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(249, 250, 251, 1));
+            box-shadow:
+                0 10px 25px -6px rgba(0, 0, 0, 0.18),
+                0 6px 12px -3px rgba(0, 0, 0, 0.12),
+                inset 0 2px 4px rgba(255, 255, 255, 1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-button:active {
+            transform: translateY(-1px);
+            box-shadow:
+                0 4px 12px -3px rgba(0, 0, 0, 0.12),
+                0 2px 4px -1px rgba(0, 0, 0, 0.08),
+                inset 0 2px 4px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 分析框框樣式 */
+        .analysis-cards-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .analysis-cards-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .analysis-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow:
+                0 8px 20px -6px rgba(0, 0, 0, 0.1),
+                0 4px 8px -2px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .analysis-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 12px 30px -8px rgba(0, 0, 0, 0.15),
+                0 6px 12px -3px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(156, 163, 175, 0.2);
+        }
+
+        .card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #374151;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .powered-by {
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        .data-count {
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        .analysis-btn {
+            width: 100%;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .analysis-btn:hover::before {
+            left: 100%;
+        }
+
+        .analysis-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .analysis-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-icon {
+            font-size: 1.25rem;
+        }
+
+        .analysis-result {
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(156, 163, 175, 0.2);
+            line-height: 1.6;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #6b7280;
+        }
+
+        .loading-state .loading-spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(156, 163, 175, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .trend-icon {
+            font-size: 1.25rem;
+        }
+
+        .trend-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 分析框框樣式 */
+        .analysis-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow:
+                0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 35px -8px rgba(0, 0, 0, 0.15),
+                0 6px 12px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-analysis-card {
+            background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid #0ea5e9;
+        }
+
+        .stats-card {
+            background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+            border-left: 4px solid #22c55e;
+        }
+
+        .analysis-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .analysis-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .analysis-button:disabled {
+            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading-spinner-small {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .analysis-result {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+        }
+
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .trend-up {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .trend-down {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .trend-stable {
+            background: rgba(107, 114, 128, 0.1);
+            color: #4b5563;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -474,99 +957,153 @@
     <!-- 主應用程式容器 -->
     <div id="app" class="hidden">
         <div class="app-container p-6 fade-in">
-        <div id="dashboardView" class="slide-up">
-            <!-- 標題區域 -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2"><span class="pulse-emoji">🏥</span> 健康紀錄 <span class="heartbeat-emoji">💖</span></h1>
-                <p class="text-gray-600">追蹤您和家人的健康數據</p>
-            </div>
+            <div id="dashboardView" class="slide-up">
+                <!-- 標題區域 -->
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2"><span class="pulse-emoji">🏥</span> 健康紀錄 <span
+                            class="heartbeat-emoji">💖</span></h1>
+                    <p class="text-gray-600">追蹤您和家人的健康數據</p>
+                </div>
 
-            <!-- 家人選擇器 -->
-            <div class="mb-8">
-                <div class="flex items-center justify-between mb-3">
-                    <label for="personSelector" class="text-sm font-semibold text-gray-700 flex items-center gap-1">
-                        <span class="float-emoji">👨‍👩‍👧‍👦</span> 為誰紀錄？
-                    </label>
-                    <button onclick="showCustomNamesManager()" 
+                <!-- 家人選擇器 -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-3">
+                        <label for="personSelector" class="text-sm font-semibold text-gray-700 flex items-center gap-1">
+                            <span class="float-emoji">👨‍👩‍👧‍👦</span> 為誰紀錄？
+                        </label>
+                        <button onclick="showCustomNamesManager()"
                             class="text-xs px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors duration-200 flex items-center gap-1"
                             title="管理自訂名稱">
-                        <span>⚙️</span> 管理名稱
-                    </button>
+                            <span>⚙️</span> 管理名稱
+                        </button>
+                    </div>
+                    <select id="personSelector"
+                        class="input-field w-full p-4 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium"></select>
+                    <input type="text" id="customPersonInput" placeholder="請輸入自訂稱謂"
+                        class="input-field hidden w-full mt-3 p-4 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                 </div>
-                <select id="personSelector"
-                    class="input-field w-full p-4 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium"></select>
-                <input type="text" id="customPersonInput" placeholder="請輸入自訂稱謂"
-                    class="input-field hidden w-full mt-3 p-4 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+
+                <!-- 儀表板卡片區 -->
+                <div id="dashboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- 儀表板卡片區 -->
-            <div id="dashboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        </div>
+            <!-- 歷史紀錄與圖表檢視 (預設隱藏) -->
+            <div id="historyView" class="hidden mt-6 slide-up">
+                <div class="chart-container p-6 shadow-xl">
+                    <h2 id="historyTitle" class="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+                        <span class="animated-emoji">📈</span> 歷史紀錄 <span class="pulse-emoji">📊</span>
+                    </h2>
+                    <div class="chart-wrapper-medium">
+                        <canvas id="historyChart" class="chart-canvas-medium"></canvas>
+                    </div>
 
-        <!-- 歷史紀錄與圖表檢視 (預設隱藏) -->
-        <div id="historyView" class="hidden mt-6 slide-up">
-            <div class="chart-container p-6 shadow-xl">
-                <h2 id="historyTitle" class="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
-                    <span class="animated-emoji">📈</span> 歷史紀錄 <span class="pulse-emoji">📊</span>
-                </h2>
-                <div class="chart-wrapper-medium">
-                    <canvas id="historyChart" class="chart-canvas-medium"></canvas>
-                </div>
-                
-                <!-- 按鈕區域 - 添加新紀錄和返回按鈕並排 -->
-                <div class="flex gap-4 mt-6 mb-6">
-                    <button id="addRecordBtn"
-                        class="primary-button flex-1 py-4 px-6 rounded-xl font-bold text-lg shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
-                        <span class="text-xl">+</span> 添加新紀錄
-                    </button>
-                    <button id="backToDashboardBtn" 
-                        class="glass-button px-6 py-4 rounded-xl font-medium text-gray-700 hover:text-gray-900 transition-all duration-300 flex items-center gap-2">
-                        <span>←</span> 返回
-                    </button>
-                </div>
-                
-                <!-- 分頁控制 - 優化版 -->
-                <div class="pagination-container">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <span class="text-sm font-semibold text-gray-700 flex items-center gap-1">
-                                <span class="animated-emoji">📋</span> 顯示
-                            </span>
-                            <select id="recordsPerPage" class="records-select">
-                                <option value="5">5</option>
-                                <option value="10" selected>10</option>
-                                <option value="15">15</option>
-                            </select>
-                            <span class="text-sm font-semibold text-gray-700">筆記錄</span>
+
+
+                    <!-- 分析卡片區域 -->
+                    <div class="analysis-cards-container mb-6">
+                        <!-- AI 分析卡片 -->
+                        <div class="analysis-card ai-analysis-card">
+                            <div class="card-header">
+                                <h3>🤖 AI 健康分析</h3>
+                                <span class="powered-by">Powered by Gemini</span>
+                            </div>
+                            <div class="stats-grid mb-4">
+                                <div class="stat-item">
+                                    <div class="stat-label">數據點</div>
+                                    <div class="stat-value" id="aiDataCount">-</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">健康評分</div>
+                                    <div class="stat-value" id="aiHealthScore">-</div>
+                                </div>
+                            </div>
+                            <button id="aiAnalysisBtn" class="analysis-btn">
+                                <span class="btn-icon">🔍</span>
+                                <span>開始 AI 分析</span>
+                            </button>
+                            <div id="aiAnalysisResult" class="analysis-result hidden"></div>
+                        </div>
+
+                        <!-- 統計分析卡片 -->
+                        <div class="analysis-card stats-card">
+                            <div class="card-header">
+                                <h3>📊 統計分析</h3>
+                                <span class="data-count" id="statsDataCount">0 筆數據</span>
+                            </div>
+                            <div class="stats-grid mb-4">
+                                <div class="stat-item">
+                                    <div class="stat-label">平均值</div>
+                                    <div class="stat-value" id="statsAverage">-</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">趨勢</div>
+                                    <div class="stat-value" id="statsTrend">-</div>
+                                </div>
+                            </div>
+                            <button id="statsAnalysisBtn" class="analysis-btn">
+                                <span class="btn-icon">📈</span>
+                                <span>統計分析</span>
+                            </button>
+                            <div id="statsAnalysisResult" class="analysis-result hidden"></div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div></div>
-                        <div class="flex items-center gap-3">
-                            <button id="prevPageBtn" class="pagination-btn flex items-center gap-2">
-                                <span>←</span> 上一頁
-                            </button>
-                            <span id="pageInfo" class="text-sm font-bold text-gray-700 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200">第 1 頁，共 1 頁</span>
-                            <button id="nextPageBtn" class="pagination-btn flex items-center gap-2">
-                                下一頁 <span>→</span>
-                            </button>
+
+                    <!-- 按鈕區域 - 添加新紀錄和返回按鈕並排 -->
+                    <div class="flex gap-4 mt-6 mb-6">
+                        <button id="addRecordBtn"
+                            class="primary-button flex-1 py-3 px-6 rounded-xl font-bold text-lg shadow-xl transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
+                            <span class="text-xl">+</span> 添加新紀錄
+                        </button>
+                        <button id="backToDashboardBtn"
+                            class="back-button px-6 py-3 rounded-xl font-bold text-gray-700 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
+                            <span class="text-lg">🔙</span> 返回主頁
+                        </button>
+                    </div>
+
+                    <!-- 分頁控制 - 優化版 -->
+                    <div class="pagination-container">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm font-semibold text-gray-700 flex items-center gap-1">
+                                    <span class="animated-emoji">📋</span> 顯示
+                                </span>
+                                <select id="recordsPerPage" class="records-select">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                </select>
+                                <span class="text-sm font-semibold text-gray-700">筆記錄</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div></div>
+                            <div class="flex items-center gap-3">
+                                <button id="prevPageBtn" class="pagination-btn flex items-center gap-2">
+                                    <span>←</span> 上一頁
+                                </button>
+                                <span id="pageInfo"
+                                    class="text-sm font-bold text-gray-700 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200">第
+                                    1 頁，共 1 頁</span>
+                                <button id="nextPageBtn" class="pagination-btn flex items-center gap-2">
+                                    下一頁 <span>→</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <div id="historyTableContainer"></div>
                 </div>
-                <div id="historyTableContainer"></div>
             </div>
-        </div>
         </div>
     </div>
 
     <!-- 新增/編輯紀錄彈出視窗 -->
-    <div id="addRecordModal"
-        class="modal fixed inset-0 bg-black/30 hidden z-40 flex items-center justify-center p-4">
+    <div id="addRecordModal" class="modal fixed inset-0 bg-black/30 hidden z-40 flex items-center justify-center p-4">
         <div
             class="modal-content relative mx-auto p-6 w-full max-w-md shadow-2xl rounded-3xl transform transition-all -translate-y-10 opacity-0">
             <div class="text-center">
                 <div class="mb-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-2xl animated-emoji">✨</span>
                     </div>
                     <h3 id="modalTitle" class="text-xl font-bold text-gray-900">添加新紀錄</h3>
@@ -590,12 +1127,12 @@
     </div>
 
     <!-- 確認/警示彈出視窗 (用於刪除與錯誤提示) -->
-    <div id="confirmModal"
-        class="modal fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+    <div id="confirmModal" class="modal fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
         <div
             class="modal-content relative mx-auto p-6 w-full max-w-sm shadow-2xl rounded-3xl transform transition-all -translate-y-10 opacity-0">
             <div class="text-center">
-                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
+                <div
+                    class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
                     <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -629,9 +1166,11 @@
         let currentHistoryChart = null;
         let currentViewingType = null;
         let currentPage = 1;
-        let recordsPerPage = 10;
+        let recordsPerPage = 5;
         let totalRecords = 0;
         let allHistoryLogs = [];
+        let healthStatsCalculator = null;
+        let aiHealthAnalyzer = null;
         const measurementTypes = [
             { key: 'weight', name: '體重', icon: '<span class="animated-emoji">⚖️</span>', unit: 'kg', color: 'text-orange-500', fields: ['weight'] },
             { key: 'blood_pressure', name: '血壓', icon: '<span class="heartbeat-emoji">💗</span>', unit: 'mmHg', color: 'text-red-500', fields: ['systolic_pressure', 'diastolic_pressure'] },
@@ -656,16 +1195,16 @@
         async function initializeLiff() {
             const liffId = "{{ liff_id }}";
             const loadingDiv = document.getElementById("loading");
-            
+
             console.log("LIFF ID received:", liffId);
             console.log("LIFF ID type:", typeof liffId);
             console.log("LIFF ID length:", liffId ? liffId.length : 0);
             console.log("LIFF ID 包含引號:", liffId.includes('"'));
-            
+
             // 移除可能的引號
             const cleanLiffId = liffId.replace(/"/g, '');
             console.log("清理後的 LIFF ID:", cleanLiffId);
-            
+
             // 檢查 LIFF ID 格式 - 修復驗證邏輯
             if (!liffId || liffId.trim() === "" || liffId === "None" || liffId === "undefined") {
                 console.error("LIFF ID 驗證失敗:", liffId);
@@ -682,10 +1221,10 @@
                 `;
                 return;
             }
-            
+
             // 使用清理後的 LIFF ID 進行後續操作
             const finalLiffId = cleanLiffId || liffId;
-            
+
             // 驗證 LIFF ID 格式是否正確
             const liffIdPattern = /^[0-9]+-[a-zA-Z0-9]+$/;
             if (!liffIdPattern.test(finalLiffId)) {
@@ -703,7 +1242,7 @@
                 `;
                 return;
             }
-            
+
             // 檢查是否在 LINE 環境中
             if (!window.liff) {
                 loadingDiv.innerHTML = `
@@ -751,7 +1290,7 @@
 
                 console.log("使用者已登入，取得使用者資料");
                 userProfile = await liff.getProfile();
-                
+
                 if (!userProfile || !userProfile.userId) {
                     loadingDiv.innerHTML = `
                         <div class="text-center">
@@ -767,7 +1306,7 @@
                 }
 
                 console.log("使用者資料取得成功:", userProfile);
-                
+
                 // 成功載入，顯示應用程式
                 console.log("準備顯示應用程式...");
                 loadingDiv.style.display = 'none';
@@ -779,29 +1318,34 @@
                 } else {
                     console.error("找不到 app 元素");
                 }
-                
+
                 // 初始化應用程式
                 console.log("開始初始化應用程式功能...");
                 try {
                     await populateFamilyDropdown();
                     console.log("家人下拉選單初始化完成");
-                    
+
                     setupPaginationEvents(); // 設置分頁事件
                     console.log("分頁事件設置完成");
-                    
+
+                    // 初始化分析功能
+                    healthStatsCalculator = new HealthStatsCalculator();
+                    aiHealthAnalyzer = new AIHealthAnalyzer();
+                    console.log("分析功能初始化完成");
+
                     await loadAllHealthData(userProfile.userId);
                     console.log("健康資料載入完成");
                 } catch (initError) {
                     console.error("應用程式初始化過程中發生錯誤:", initError);
                     // 即使初始化部分功能失敗，也要確保基本介面顯示
                 }
-                
+
             } catch (err) {
                 console.error("LIFF 初始化失敗:", err);
-                
+
                 let errorMessage = "未知錯誤";
                 let errorDetail = "";
-                
+
                 // 根據錯誤類型提供更詳細的說明
                 if (err.code) {
                     switch (err.code) {
@@ -825,7 +1369,7 @@
                     errorMessage = "載入失敗";
                     errorDetail = err.message || "請重新整理頁面";
                 }
-                
+
                 loadingDiv.innerHTML = `
                     <div class="text-center">
                         <div class="text-red-400 text-xl mb-4">⚠️</div>
@@ -841,7 +1385,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 // 如果有 showAlert 函數可用，也顯示彈出提示
                 if (typeof showAlert === 'function') {
                     setTimeout(() => {
@@ -851,31 +1395,240 @@
             }
         }
 
+        // --- 健康統計計算器 ---
+        class HealthStatsCalculator {
+            constructor() {
+                this.stats = {};
+            }
+
+            calculateStats(logs, type) {
+                if (!logs || logs.length === 0) {
+                    return null;
+                }
+
+                const values = [];
+
+                if (type.key === 'blood_pressure') {
+                    const systolicValues = logs.filter(log => log.systolic_pressure != null).map(log => log.systolic_pressure);
+                    const diastolicValues = logs.filter(log => log.diastolic_pressure != null).map(log => log.diastolic_pressure);
+
+                    if (systolicValues.length === 0 || diastolicValues.length === 0) {
+                        return null;
+                    }
+
+                    return {
+                        systolic: this.calculateBasicStats(systolicValues),
+                        diastolic: this.calculateBasicStats(diastolicValues),
+                        count: Math.min(systolicValues.length, diastolicValues.length),
+                        trend: this.calculateTrend(systolicValues.slice(-5))
+                    };
+                } else {
+                    const fieldValues = logs.filter(log => log[type.key] != null).map(log => log[type.key]);
+
+                    if (fieldValues.length === 0) {
+                        return null;
+                    }
+
+                    return {
+                        ...this.calculateBasicStats(fieldValues),
+                        count: fieldValues.length,
+                        trend: this.calculateTrend(fieldValues.slice(-5))
+                    };
+                }
+            }
+
+            calculateBasicStats(values) {
+                if (!values || values.length === 0) return null;
+
+                const sorted = [...values].sort((a, b) => a - b);
+                const sum = values.reduce((acc, val) => acc + val, 0);
+                const avg = sum / values.length;
+
+                // 計算標準差
+                const variance = values.reduce((acc, val) => acc + Math.pow(val - avg, 2), 0) / values.length;
+                const stdDev = Math.sqrt(variance);
+
+                return {
+                    min: sorted[0],
+                    max: sorted[sorted.length - 1],
+                    avg: avg,
+                    stdDev: stdDev,
+                    median: this.calculateMedian(sorted)
+                };
+            }
+
+            calculateMedian(sortedValues) {
+                const mid = Math.floor(sortedValues.length / 2);
+                return sortedValues.length % 2 === 0
+                    ? (sortedValues[mid - 1] + sortedValues[mid]) / 2
+                    : sortedValues[mid];
+            }
+
+            calculateTrend(recentValues) {
+                if (!recentValues || recentValues.length < 2) {
+                    return 'stable';
+                }
+
+                const firstHalf = recentValues.slice(0, Math.ceil(recentValues.length / 2));
+                const secondHalf = recentValues.slice(Math.floor(recentValues.length / 2));
+
+                const firstAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;
+                const secondAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
+
+                const change = ((secondAvg - firstAvg) / firstAvg) * 100;
+
+                if (Math.abs(change) < 5) return 'stable';
+                return change > 0 ? 'up' : 'down';
+            }
+
+            getTrendDisplay(trend, type) {
+                const trends = {
+                    'up': { icon: '📈', text: '上升趨勢', class: 'trend-up' },
+                    'down': { icon: '📉', text: '下降趨勢', class: 'trend-down' },
+                    'stable': { icon: '➡️', text: '穩定', class: 'trend-stable' }
+                };
+
+                return trends[trend] || trends['stable'];
+            }
+        }
+
+        // --- AI 健康分析器 ---
+        class AIHealthAnalyzer {
+            constructor() {
+                this.isAnalyzing = false;
+                this.lastAnalysisTime = null;
+                this.rateLimitMs = 30000; // 30秒限制
+            }
+
+            async analyzeHealthData(logs, type, targetPerson) {
+                if (this.isAnalyzing) {
+                    throw new Error('分析正在進行中，請稍候...');
+                }
+
+                // 檢查頻率限制
+                const now = Date.now();
+                if (this.lastAnalysisTime && (now - this.lastAnalysisTime) < this.rateLimitMs) {
+                    const remainingTime = Math.ceil((this.rateLimitMs - (now - this.lastAnalysisTime)) / 1000);
+                    throw new Error(`請等待 ${remainingTime} 秒後再次分析`);
+                }
+
+                if (!logs || logs.length < 3) {
+                    throw new Error('需要至少 3 筆記錄才能進行 AI 分析');
+                }
+
+                this.isAnalyzing = true;
+                this.lastAnalysisTime = now;
+
+                try {
+                    const result = await this.callHealthAnalysisAPI(logs, targetPerson);
+                    return result;
+                } finally {
+                    this.isAnalyzing = false;
+                }
+            }
+
+            async callHealthAnalysisAPI(logs, targetPerson) {
+                const response = await fetch('/api/ai_analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userProfile.userId,
+                        targetPerson: targetPerson,
+                        healthData: logs
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'AI 分析服務暫時無法使用');
+                }
+
+                const result = await response.json();
+                return result;
+            }
+
+            formatInsights(insights) {
+                if (!insights || insights.length === 0) {
+                    return '<p class="text-gray-500">暫無分析洞察</p>';
+                }
+
+                return insights.map(insight => {
+                    const typeIcons = {
+                        'trend': '📈',
+                        'warning': '⚠️',
+                        'improvement': '✅',
+                        'stable': '➡️',
+                        'risk': '🚨',
+                        'normal': '😊'
+                    };
+
+                    const icon = typeIcons[insight.type] || '💡';
+                    let trendInfo = '';
+                    
+                    if (insight.trend) {
+                        const trendIcon = insight.trend.direction === 'up' ? '📈' :
+                                        insight.trend.direction === 'down' ? '📉' : '➡️';
+                        trendInfo = `<div class="trend-indicator trend-${insight.trend.direction} mt-2">
+                            <span class="trend-icon">${trendIcon}</span>
+                            <span class="trend-text">${insight.trend.description}</span>
+                        </div>`;
+                    }
+
+                    return `<div class="mb-4 p-3 bg-white/60 rounded-lg border border-gray-200">
+                        <div class="flex items-start gap-2">
+                            <span class="text-lg">${icon}</span>
+                            <div class="flex-1">
+                                <p class="text-gray-800 font-medium">${insight.message}</p>
+                                ${trendInfo}
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            formatRecommendations(recommendations) {
+                if (!recommendations || recommendations.length === 0) {
+                    return '<p class="text-gray-500">暫無建議</p>';
+                }
+
+                return recommendations.map(rec => {
+                    const priorityColors = {
+                        'high': 'bg-red-100 text-red-800 border-red-200',
+                        'medium': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+                        'low': 'bg-green-100 text-green-800 border-green-200'
+                    };
+
+                    const priorityLabels = {
+                        'high': '高優先級',
+                        'medium': '中優先級',
+                        'low': '低優先級'
+                    };
+
+                    const priorityClass = priorityColors[rec.priority] || priorityColors['medium'];
+                    const priorityLabel = priorityLabels[rec.priority] || '一般';
+
+                    return `<div class="mb-4 p-4 bg-white/80 rounded-lg border border-gray-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-gray-800">${rec.title}</h4>
+                            <span class="px-2 py-1 text-xs font-medium rounded-full border ${priorityClass}">
+                                ${priorityLabel}
+                            </span>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">${rec.content}</p>
+                    </div>`;
+                }).join('');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', initializeLiff);
 
         // --- 資料處理 ---
         async function loadAllHealthData(recorderId) {
             try {
-                // 根據查看對象決定API端點
-                const targetPerson = getSelectedPerson();
-                const targetPersonId = getSelectedPersonId();
-                let apiUrl;
-                
-                if (targetPerson === '本人') {
-                    // 查看本人時使用原API
-                    apiUrl = `/api/health_logs/${recorderId}?t=${new Date().getTime()}`;
-                } else if (targetPersonId) {
-                    // 查看已綁定的家人時，使用成員的真實 LINE ID
-                    console.log(`[DEBUG] 查看已綁定成員: ${targetPerson}, member_id: ${targetPersonId}`);
-                    apiUrl = `/api/health_logs/${recorderId}/member/${targetPerson}?t=${new Date().getTime()}`;
-                } else {
-                    // 查看其他人（自訂名稱等）時，使用原API但過濾target_person
-                    console.log(`[DEBUG] 查看自訂成員: ${targetPerson}`);
-                    apiUrl = `/api/health_logs/${recorderId}?t=${new Date().getTime()}`;
-                }
-                
-                console.log(`[DEBUG] 載入健康資料，API: ${apiUrl}`);
-                const response = await fetch(apiUrl);
+                // 添加時間戳以防止快取問題
+                const response = await fetch(`/api/health_logs/${recorderId}?t=${new Date().getTime()}`);
 
                 if (!response.ok) {
                     let errorMsg = `伺服器錯誤 (${response.status})`
@@ -954,22 +1707,8 @@
             const targetPerson = getSelectedPerson();
 
             measurementTypes.forEach(type => {
-                // 修正：根據API端點決定過濾邏輯
-                const targetPersonId = getSelectedPersonId();
-                const personLogs = allLogs.filter(log => {
-                    if (targetPerson === '本人') {
-                        // 查看本人時，顯示所有後端返回的記錄（後端已經過濾了權限）
-                        return true;
-                    } else if (targetPersonId) {
-                        // 查看已綁定的家人時，顯示所有返回的記錄（API已過濾）
-                        return true;
-                    } else {
-                        // 查看自訂成員時，需要前端過濾 target_person
-                        return log.target_person === targetPerson;
-                    }
-                });
-                
-                console.log(`[DEBUG] 過濾前記錄數: ${allLogs.length}, 過濾後記錄數: ${personLogs.length}`);
+                // 注意：這裡我們直接使用全域變數 allLogs，它已經在 loadAllHealthData 中被更新了。
+                const personLogs = allLogs.filter(log => log.recorder_id === userProfile.userId && log.target_person === targetPerson);
 
                 let latestLog, displayValue;
                 if (type.key === 'blood_pressure') {
@@ -1006,25 +1745,11 @@
             const targetPerson = getSelectedPerson();
             document.getElementById('historyTitle').innerHTML = `<span class="animated-emoji">📈</span> ${targetPerson}的${type.name}歷史紀錄 <span class="pulse-emoji">📊</span>`;
 
-            // 修正：根據API端點決定過濾邏輯
-            const targetPersonId = getSelectedPersonId();
-            const personLogs = allLogs.filter(log => {
-                if (targetPerson === '本人') {
-                    // 查看本人時，顯示所有後端返回的記錄（後端已經過濾了權限）
-                    return true;
-                } else if (targetPersonId) {
-                    // 查看已綁定的家人時，顯示所有返回的記錄（API已過濾）
-                    return true;
-                } else {
-                    // 查看自訂成員時，需要前端過濾 target_person
-                    return log.target_person === targetPerson;
-                }
-            });
-            
-            console.log(`[DEBUG] 歷史記錄過濾前: ${allLogs.length}, 過濾後: ${personLogs.length}`);
+            const personLogs = allLogs.filter(log => log.recorder_id === userProfile.userId && log.target_person === targetPerson);
 
             renderHistoryChart(personLogs, type);
             renderHistoryTable(personLogs, type);
+            updateAnalysisCards(personLogs, type);
         }
 
         function renderHistoryChart(logs, type, useCurrentPage = false) {
@@ -1032,15 +1757,27 @@
             if (currentHistoryChart) currentHistoryChart.destroy();
 
             let filteredLogs = logs.filter(log => type.fields.every(f => log[f] != null)).reverse(); // 反轉以獲得時間順序
-            
-            // 如果需要使用當前分頁數據，則只顯示當前頁的數據
-            if (useCurrentPage && allHistoryLogs.length > 0) {
+
+            // 預設只顯示最近5筆記錄
+            if (!useCurrentPage) {
+                filteredLogs = filteredLogs.slice(-5); // 取最後5筆（最新的5筆）
+            } else if (useCurrentPage && allHistoryLogs.length > 0) {
+                // 如果需要使用當前分頁數據，則只顯示當前頁的數據
                 const startIndex = (currentPage - 1) * recordsPerPage;
                 const endIndex = startIndex + recordsPerPage;
                 filteredLogs = allHistoryLogs.slice(startIndex, endIndex);
             }
-            
-            const labels = filteredLogs.map(log => new Date(log.record_time).toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }));
+
+            const labels = filteredLogs.map(log => {
+                const date = new Date(log.record_time);
+                return date.toLocaleDateString('zh-TW', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'Asia/Taipei'
+                });
+            });
             const datasets = [];
 
             if (type.key === 'blood_pressure') {
@@ -1049,45 +1786,45 @@
                 const gradientSystolic = ctx.createLinearGradient(0, 0, 0, 400);
                 gradientSystolic.addColorStop(0, 'rgba(255, 107, 107, 0.8)');
                 gradientSystolic.addColorStop(1, 'rgba(255, 107, 107, 0.1)');
-                
+
                 const gradientDiastolic = ctx.createLinearGradient(0, 0, 0, 400);
                 gradientDiastolic.addColorStop(0, 'rgba(78, 205, 196, 0.8)');
                 gradientDiastolic.addColorStop(1, 'rgba(78, 205, 196, 0.1)');
 
-                datasets.push({ 
-                    label: '收縮壓', 
-                    data: filteredLogs.map(l => l.systolic_pressure), 
-                    borderColor: '#FF6B6B', 
-                    backgroundColor: gradientSystolic, 
+                datasets.push({
+                    label: '收縮壓',
+                    data: filteredLogs.map(l => l.systolic_pressure),
+                    borderColor: '#FF6B6B',
+                    backgroundColor: gradientSystolic,
                     borderWidth: 3,
                     pointBackgroundColor: '#FF6B6B',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 6,
                     pointHoverRadius: 8,
-                    tension: 0.4, 
-                    fill: true 
+                    tension: 0.4,
+                    fill: true
                 });
-                datasets.push({ 
-                    label: '舒張壓', 
-                    data: filteredLogs.map(l => l.diastolic_pressure), 
-                    borderColor: '#4ECDC4', 
-                    backgroundColor: gradientDiastolic, 
+                datasets.push({
+                    label: '舒張壓',
+                    data: filteredLogs.map(l => l.diastolic_pressure),
+                    borderColor: '#4ECDC4',
+                    backgroundColor: gradientDiastolic,
                     borderWidth: 3,
                     pointBackgroundColor: '#4ECDC4',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 6,
                     pointHoverRadius: 8,
-                    tension: 0.4, 
-                    fill: true 
+                    tension: 0.4,
+                    fill: true
                 });
             } else {
                 // 根據不同類型使用不同的漸層色彩
                 const ctx = document.getElementById('historyChart').getContext('2d');
                 let colors = {};
-                
-                switch(type.key) {
+
+                switch (type.key) {
                     case 'weight':
                         colors = { border: '#F9A825', bg: ['rgba(249, 168, 37, 0.8)', 'rgba(249, 168, 37, 0.1)'] };
                         break;
@@ -1103,32 +1840,32 @@
                     default:
                         colors = { border: '#667eea', bg: ['rgba(102, 126, 234, 0.8)', 'rgba(102, 126, 234, 0.1)'] };
                 }
-                
+
                 const gradient = ctx.createLinearGradient(0, 0, 0, 400);
                 gradient.addColorStop(0, colors.bg[0]);
                 gradient.addColorStop(1, colors.bg[1]);
 
-                datasets.push({ 
-                    label: type.name, 
-                    data: filteredLogs.map(l => l[type.key]), 
-                    borderColor: colors.border, 
-                    backgroundColor: gradient, 
+                datasets.push({
+                    label: type.name,
+                    data: filteredLogs.map(l => l[type.key]),
+                    borderColor: colors.border,
+                    backgroundColor: gradient,
                     borderWidth: 3,
                     pointBackgroundColor: colors.border,
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 6,
                     pointHoverRadius: 8,
-                    tension: 0.4, 
-                    fill: true 
+                    tension: 0.4,
+                    fill: true
                 });
             }
 
-            currentHistoryChart = new Chart(ctx, { 
-                type: 'line', 
-                data: { labels, datasets }, 
-                options: { 
-                    responsive: true, 
+            currentHistoryChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     animation: {
                         duration: 2000,
@@ -1149,10 +1886,10 @@
                                     size: 14,
                                     weight: 'bold'
                                 },
-                                generateLabels: function(chart) {
+                                generateLabels: function (chart) {
                                     const original = Chart.defaults.plugins.legend.labels.generateLabels;
                                     const labels = original.call(this, chart);
-                                    
+
                                     // 為每個標籤添加對應的 emoji
                                     labels.forEach((label, index) => {
                                         const dataset = chart.data.datasets[index];
@@ -1173,7 +1910,7 @@
                                             }
                                         }
                                     });
-                                    
+
                                     return labels;
                                 }
                             }
@@ -1215,7 +1952,7 @@
                             }
                         }
                     }
-                } 
+                }
             });
         }
 
@@ -1242,7 +1979,7 @@
 
             const tableContainer = document.createElement('div');
             tableContainer.className = 'bg-white/95 backdrop-filter backdrop-blur-lg rounded-lg shadow-md border border-white/30 overflow-hidden';
-            
+
             const table = document.createElement('table');
             table.className = 'w-full divide-y divide-gray-200 text-sm';
             table.innerHTML = `
@@ -1260,12 +1997,14 @@
                     : log[type.key];
                 return `
                             <tr class="table-row hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-200 ${index % 2 === 0 ? 'bg-gray-50/50' : 'bg-white/50'}">
-                                <td class="px-3 py-2 whitespace-nowrap text-xs text-gray-700">${new Date(log.record_time).toLocaleString('zh-TW', { 
-                                    month: '2-digit', 
-                                    day: '2-digit', 
-                                    hour: '2-digit', 
-                                    minute: '2-digit'
-                                })}</td>
+                                <td class="px-3 py-2 whitespace-nowrap text-xs text-gray-700">${new Date(log.record_time).toLocaleString('zh-TW', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'Asia/Taipei'
+                })}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="text-sm font-bold text-gray-900">${value}</span>
                                     <span class="text-xs text-gray-500 ml-1">${type.unit}</span>
@@ -1280,7 +2019,7 @@
             }).join('')}
                 </tbody>
             `;
-            
+
             tableContainer.appendChild(table);
             container.appendChild(tableContainer);
         }
@@ -1306,11 +2045,12 @@
         }
 
 
+
         function setupPaginationEvents() {
             const recordsSelect = document.getElementById('recordsPerPage');
             const prevBtn = document.getElementById('prevPageBtn');
             const nextBtn = document.getElementById('nextPageBtn');
-            
+
             let showCurrentPageOnly = true; // 固定顯示當前頁
 
             // 每頁記錄數變更
@@ -1347,11 +2087,106 @@
             });
         }
 
+        // --- 分析功能 ---
+        function updateAnalysisCards(logs, type) {
+            const targetPerson = getSelectedPerson();
+            const filteredLogs = logs.filter(log => type.fields.every(f => log[f] != null));
+            
+            // 更新數據計數
+            document.getElementById('aiDataCount').textContent = filteredLogs.length;
+            document.getElementById('statsDataCount').textContent = `${filteredLogs.length} 筆數據`;
+            
+            // 計算統計數據
+            if (filteredLogs.length > 0) {
+                const stats = healthStatsCalculator.calculateStats(filteredLogs, type);
+                if (stats) {
+                    if (type.key === 'blood_pressure') {
+                        document.getElementById('statsAverage').textContent =
+                            `${Math.round(stats.systolic.avg)}/${Math.round(stats.diastolic.avg)}`;
+                        document.getElementById('aiHealthScore').textContent =
+                            calculateBloodPressureScore(stats.systolic.avg, stats.diastolic.avg);
+                    } else {
+                        document.getElementById('statsAverage').textContent =
+                            `${stats.avg.toFixed(1)} ${type.unit}`;
+                        document.getElementById('aiHealthScore').textContent =
+                            calculateHealthScore(stats.avg, type);
+                    }
+                    
+                    const trendDisplay = healthStatsCalculator.getTrendDisplay(stats.trend, type);
+                    document.getElementById('statsTrend').innerHTML =
+                        `<span class="${trendDisplay.class}">${trendDisplay.icon}</span>`;
+                } else {
+                    document.getElementById('statsAverage').textContent = '-';
+                    document.getElementById('statsTrend').textContent = '-';
+                    document.getElementById('aiHealthScore').textContent = '-';
+                }
+            } else {
+                document.getElementById('statsAverage').textContent = '-';
+                document.getElementById('statsTrend').textContent = '-';
+                document.getElementById('aiHealthScore').textContent = '-';
+            }
+            
+            // 重置分析結果
+            document.getElementById('aiAnalysisResult').classList.add('hidden');
+            document.getElementById('statsAnalysisResult').classList.add('hidden');
+            
+            // 更新按鈕狀態
+            const aiBtn = document.getElementById('aiAnalysisBtn');
+            const statsBtn = document.getElementById('statsAnalysisBtn');
+            
+            if (filteredLogs.length < 3) {
+                aiBtn.disabled = true;
+                aiBtn.innerHTML = '<span class="btn-icon">🤖</span><span>需要更多數據</span>';
+            } else {
+                aiBtn.disabled = false;
+                aiBtn.innerHTML = '<span class="btn-icon">🔍</span><span>開始 AI 分析</span>';
+            }
+            
+            if (filteredLogs.length < 2) {
+                statsBtn.disabled = true;
+                statsBtn.innerHTML = '<span class="btn-icon">📊</span><span>需要更多數據</span>';
+            } else {
+                statsBtn.disabled = false;
+                statsBtn.innerHTML = '<span class="btn-icon">📈</span><span>統計分析</span>';
+            }
+        }
+
+        function calculateHealthScore(value, type) {
+            // 簡化的健康評分計算
+            switch (type.key) {
+                case 'weight':
+                    if (value >= 45 && value <= 80) return '85';
+                    if (value >= 40 && value <= 90) return '70';
+                    return '50';
+                case 'blood_sugar':
+                    if (value >= 70 && value <= 100) return '90';
+                    if (value >= 100 && value <= 126) return '70';
+                    return '50';
+                case 'temperature':
+                    if (value >= 36.1 && value <= 37.2) return '90';
+                    if (value >= 35.5 && value <= 38.0) return '70';
+                    return '50';
+                case 'blood_oxygen':
+                    if (value >= 95) return '90';
+                    if (value >= 90) return '70';
+                    return '50';
+                default:
+                    return '75';
+            }
+        }
+
+        function calculateBloodPressureScore(systolic, diastolic) {
+            if (systolic <= 120 && diastolic <= 80) return '90';
+            if (systolic <= 130 && diastolic <= 85) return '75';
+            if (systolic <= 140 && diastolic <= 90) return '60';
+            return '40';
+        }
+
         // 自定義名稱管理
         function getCustomNames() {
             const userId = userProfile?.userId;
             if (!userId) return [];
-            
+
             const stored = localStorage.getItem(`customNames_${userId}`);
             return stored ? JSON.parse(stored) : [];
         }
@@ -1359,10 +2194,10 @@
         function saveCustomName(name) {
             const userId = userProfile?.userId;
             if (!userId || !name.trim()) return;
-            
+
             const customNames = getCustomNames();
             const trimmedName = name.trim();
-            
+
             // 避免重複添加
             if (!customNames.includes(trimmedName)) {
                 customNames.push(trimmedName);
@@ -1377,7 +2212,7 @@
         function deleteCustomName(name) {
             const userId = userProfile?.userId;
             if (!userId) return;
-            
+
             const customNames = getCustomNames();
             const filteredNames = customNames.filter(n => n !== name);
             localStorage.setItem(`customNames_${userId}`, JSON.stringify(filteredNames));
@@ -1392,7 +2227,7 @@
 
             const message = customNames.map((name, index) => `${index + 1}. ${name}`).join('\n');
             const nameToDelete = prompt(`自訂名稱管理\n\n${message}\n\n請輸入要刪除的名稱（完整輸入）：`);
-            
+
             if (nameToDelete && customNames.includes(nameToDelete.trim())) {
                 if (confirm(`確定要刪除「${nameToDelete.trim()}」嗎？`)) {
                     deleteCustomName(nameToDelete.trim());
@@ -1408,37 +2243,27 @@
             const select = document.getElementById('personSelector');
             const customInput = document.getElementById('customPersonInput');
             const defaultOptions = ["本人", "爸爸", "媽媽", "兒子", "女兒"];
-            
+
             // 獲取用戶的自定義名稱
             const customNames = getCustomNames();
-            
+
             // 獲取已綁定的家人列表
             let familyMembers = [];
             if (userProfile && userProfile.userId) {
                 try {
-                    console.log(`[DEBUG] 開始獲取家人列表，用戶ID: ${userProfile.userId}`);
                     const response = await fetch(`/api/family_list/${userProfile.userId}`);
-                    console.log(`[DEBUG] API 回應狀態: ${response.status}`);
-                    
                     if (response.ok) {
                         familyMembers = await response.json();
-                        console.log(`[DEBUG] 已綁定的家人數量: ${familyMembers.length}`);
-                        console.log(`[DEBUG] 已綁定的家人詳細資料:`, familyMembers);
-                    } else {
-                        console.error(`[DEBUG] API 回應錯誤: ${response.status} ${response.statusText}`);
-                        const errorText = await response.text();
-                        console.error(`[DEBUG] 錯誤詳情:`, errorText);
+                        console.log("已綁定的家人:", familyMembers);
                     }
                 } catch (error) {
-                    console.error(`[DEBUG] 載入家人列表失敗:`, error);
+                    console.error("載入家人列表失敗:", error);
                 }
-            } else {
-                console.log(`[DEBUG] 無法獲取家人列表 - userProfile:`, userProfile);
             }
 
             // 清空選項
             select.innerHTML = '';
-            
+
             // 添加預設選項
             defaultOptions.forEach(name => {
                 const option = document.createElement('option');
@@ -1446,7 +2271,7 @@
                 option.textContent = name;
                 select.appendChild(option);
             });
-            
+
             // 如果有已綁定的家人，添加分隔線和家人選項
             if (familyMembers.length > 0) {
                 // 添加分隔線
@@ -1456,30 +2281,18 @@
                 familySeparator.style.fontStyle = 'italic';
                 familySeparator.style.color = '#999';
                 select.appendChild(familySeparator);
-                
+
                 // 添加已綁定的家人選項
                 familyMembers.forEach(member => {
-                    console.log(`[DEBUG] 處理家人成員:`, member);
-                    console.log(`[DEBUG] relation_type: ${member.relation_type}`);
-                    console.log(`[DEBUG] recipient_line_id: ${member.recipient_line_id}`);
-                    
                     const option = document.createElement('option');
                     option.value = member.relation_type;
                     option.textContent = `👨‍👩‍👧‍👦 ${member.relation_type}`;
                     option.setAttribute('data-family', 'true');
                     option.setAttribute('data-member-id', member.recipient_line_id);
-                    
-                    console.log(`[DEBUG] 創建的選項:`, {
-                        value: option.value,
-                        text: option.textContent,
-                        'data-family': option.getAttribute('data-family'),
-                        'data-member-id': option.getAttribute('data-member-id')
-                    });
-                    
                     select.appendChild(option);
                 });
             }
-            
+
             // 如果有自定義名稱，添加分隔線和自定義選項
             if (customNames.length > 0) {
                 // 添加分隔線
@@ -1489,7 +2302,7 @@
                 separator.style.fontStyle = 'italic';
                 separator.style.color = '#999';
                 select.appendChild(separator);
-                
+
                 // 添加自定義名稱選項
                 customNames.forEach(name => {
                     const option = document.createElement('option');
@@ -1500,7 +2313,7 @@
                     select.appendChild(option);
                 });
             }
-            
+
             // 添加"其他"選項
             const otherOption = document.createElement('option');
             otherOption.value = 'other';
@@ -1508,26 +2321,23 @@
             select.appendChild(otherOption);
 
             // 選擇器變更事件
-            select.addEventListener('change', async (event) => {
+            select.addEventListener('change', (event) => {
                 const isOther = event.target.value === 'other';
                 customInput.classList.toggle('hidden', !isOther);
                 if (isOther) {
                     customInput.focus();
                     customInput.value = ''; // 清空輸入框
                 }
-                
-                // 重新載入健康資料（因為查看對象改變了）
-                await loadAllHealthData(userProfile.userId);
-                
+                updateDashboard();
                 // 如果歷史紀錄檢視是活動的，也更新它
                 if (!historyView.classList.contains('hidden') && currentViewingType) {
                     showHistory(currentViewingType);
                 }
             });
-            
+
             // 自定義輸入框事件
             customInput.addEventListener('input', updateDashboard);
-            
+
             // 當用戶完成輸入自定義名稱時保存
             customInput.addEventListener('blur', () => {
                 const customName = customInput.value.trim();
@@ -1543,7 +2353,7 @@
                     }, 100);
                 }
             });
-            
+
             // 按Enter鍵也觸發保存
             customInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
@@ -1560,34 +2370,27 @@
             return selector.value;
         }
 
-        function getSelectedPersonId() {
-            const selector = document.getElementById('personSelector');
-            const selectedOption = selector.options[selector.selectedIndex];
-            
-            console.log(`[DEBUG] getSelectedPersonId - 選中的選項:`, selectedOption);
-            console.log(`[DEBUG] getSelectedPersonId - 選項值:`, selectedOption?.value);
-            console.log(`[DEBUG] getSelectedPersonId - data-member-id:`, selectedOption?.getAttribute('data-member-id'));
-            console.log(`[DEBUG] getSelectedPersonId - data-family:`, selectedOption?.getAttribute('data-family'));
-            
-            // 如果是已綁定的家人，返回 member_id
-            if (selectedOption && selectedOption.getAttribute('data-member-id')) {
-                const memberId = selectedOption.getAttribute('data-member-id');
-                console.log(`[DEBUG] getSelectedPersonId - 返回 member_id:`, memberId);
-                return memberId;
-            }
-            
-            // 如果是其他情況，返回 null（使用原 API）
-            console.log(`[DEBUG] getSelectedPersonId - 返回 null`);
-            return null;
-        }
-
         // --- 彈出視窗處理 ---
 
         function openModal(type) {
             currentViewingType = type;
-            modalTitle.innerText = `添加 ${type.name} 紀錄`;
+            modalTitle.innerHTML = `<span class="flex items-center gap-2"><span class="text-2xl">📝</span>添加 ${type.name} 紀錄</span>`;
             healthForm.innerHTML = '';
 
+            // 首先添加時間選擇區塊，放在最上方
+            healthForm.innerHTML += `
+                <div class="mb-3">
+                    <label for="record_time_local" class="block text-sm font-medium text-gray-700 mb-1">
+                        🕐 記錄時間
+                    </label>
+                    <input type="datetime-local" name="record_time_local" id="record_time_local"
+                           class="input-field w-full px-4 py-3 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium">
+                </div>
+            `;
+
+            // 然後添加數據輸入欄位
+            healthForm.innerHTML += `<div class="mb-4"><h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"><span class="text-xl">${type.icon}</span>輸入 ${type.name} 數據</h3></div>`;
+            
             type.fields.forEach(field => {
                 let placeholder = '';
                 // 用欄位名稱跟測量型別判斷
@@ -1598,19 +2401,8 @@
                 else if (field === 'systolic_pressure') placeholder = '收縮壓 (mmHg)';
                 else if (field === 'diastolic_pressure') placeholder = '舒張壓 (mmHg)';
                 else placeholder = field;
-                healthForm.innerHTML += `<input type="number" step="0.1" name="${field}" placeholder="${placeholder}" class="input-field w-full px-4 py-3 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium">`;
+                healthForm.innerHTML += `<input type="number" step="0.1" name="${field}" placeholder="${placeholder}" class="input-field w-full px-4 py-3 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium mb-3">`;
             });
-            // 添加時間選擇區塊，讓它更明顯
-            healthForm.innerHTML += `
-                <div class="mb-4">
-                    <label for="record_time_local" class="block text-sm font-medium text-gray-700 mb-2">📅 記錄時間</label>
-                    <input type="datetime-local" name="record_time_local" id="record_time_local" 
-                           class="input-field w-full px-4 py-3 rounded-xl shadow-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 font-medium"
-                           style="background-color: #f8f9fa; border: 2px solid #e9ecef;">
-                    <small class="text-gray-500 text-xs mt-1 block">💡 可以選擇任何日期和時間</small>
-                </div>
-            `;
-            
             // 設定預設時間為當前時間，但用戶可以修改
             setTimeout(() => {
                 const timeInput = document.querySelector('input[name="record_time_local"]');
@@ -1623,6 +2415,38 @@
                     const hours = String(now.getHours()).padStart(2, '0');
                     const minutes = String(now.getMinutes()).padStart(2, '0');
                     timeInput.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+                    
+                    // 添加焦點事件，提醒用戶可以修改時間
+                    timeInput.addEventListener('focus', function() {
+                        this.style.background = 'linear-gradient(145deg, #dbeafe, #e0e7ff)';
+                        this.style.borderColor = '#3b82f6';
+                        this.style.transform = 'scale(1.02)';
+                        this.style.transition = 'all 0.3s ease';
+                    });
+                    
+                    timeInput.addEventListener('blur', function() {
+                        this.style.background = 'linear-gradient(145deg, #ffffff, #f8fafc)';
+                        this.style.borderColor = '#93c5fd';
+                        this.style.transform = 'scale(1)';
+                    });
+                    
+                    // 添加提示動畫
+                    timeInput.addEventListener('mouseenter', function() {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'absolute z-50 px-3 py-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg';
+                        tooltip.style.top = '-40px';
+                        tooltip.style.left = '50%';
+                        tooltip.style.transform = 'translateX(-50%)';
+                        tooltip.textContent = '點擊修改記錄時間';
+                        this.parentElement.style.position = 'relative';
+                        this.parentElement.appendChild(tooltip);
+                        
+                        setTimeout(() => {
+                            if (tooltip.parentElement) {
+                                tooltip.parentElement.removeChild(tooltip);
+                            }
+                        }, 2000);
+                    });
                 }
             }, 100);
             addRecordModal.classList.remove('hidden');
@@ -1713,78 +2537,58 @@
 
             const formData = new FormData(healthForm);
             const recordTimeLocal = formData.get('record_time_local');
-            
-            console.log('[DEBUG] 表單時間值:', recordTimeLocal);
 
-            const targetPerson = getSelectedPerson();
-            const targetPersonId = getSelectedPersonId();
-            
-            // 修復時間處理：確保始終使用正確的本地時間格式
-            let finalRecordTime;
+            // 處理時區問題：確保本地時間正確轉換
+            let recordTimeUTC;
             if (recordTimeLocal) {
-                // 用戶選擇了時間，直接使用（格式：YYYY-MM-DDTHH:MM）
-                finalRecordTime = recordTimeLocal + ':00'; // 添加秒數
-                console.log('[DEBUG] 使用用戶選擇的時間:', finalRecordTime);
+                // 直接使用本地時間，不進行額外的時區轉換
+                // datetime-local 輸入的值已經是本地時間，直接轉為 ISO 字符串即可
+                const localTime = new Date(recordTimeLocal);
+                recordTimeUTC = localTime.toISOString();
             } else {
-                // 用戶沒有選擇，使用當前本地時間
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const day = String(now.getDate()).padStart(2, '0');
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                finalRecordTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-                console.log('[DEBUG] 使用當前本地時間:', finalRecordTime);
+                recordTimeUTC = new Date().toISOString();
             }
-            
+
             const data = {
                 recorderId: userProfile.userId,
-                targetPerson: targetPerson,
-                record_time: finalRecordTime
+                targetPerson: getSelectedPerson(),
+                record_time: recordTimeUTC
             };
-            
-            // 如果是已綁定的家人，添加額外的識別資訊
-            if (targetPersonId) {
-                data.targetPersonId = targetPersonId;
-            }
-            
-            console.log(`[DEBUG] 準備保存健康記錄:`, data);
 
             let hasValue = false;
             let missingFields = [];
-            
+
             // 特殊處理血壓：收縮壓和舒張壓都必須填寫
             if (currentViewingType.key === 'blood_pressure') {
                 const systolic = formData.get('systolic_pressure');
                 const diastolic = formData.get('diastolic_pressure');
-                
+
                 if (!systolic || systolic.trim() === '') {
                     missingFields.push('收縮壓');
                 }
                 if (!diastolic || diastolic.trim() === '') {
                     missingFields.push('舒張壓');
                 }
-                
+
                 if (missingFields.length > 0) {
                     messageDiv.innerHTML = `<span class="text-red-500">❌ 請填寫：${missingFields.join('、')}</span>`;
                     return;
                 }
-                
+
                 // 驗證血壓值的合理性
                 const systolicValue = parseFloat(systolic);
                 const diastolicValue = parseFloat(diastolic);
-                
+
                 if (systolicValue <= diastolicValue) {
                     messageDiv.innerHTML = `<span class="text-red-500">❌ 收縮壓應該大於舒張壓</span>`;
                     return;
                 }
-                
+
                 if (systolicValue < 50 || systolicValue > 300 || diastolicValue < 30 || diastolicValue > 200) {
                     messageDiv.innerHTML = `<span class="text-red-500">❌ 血壓數值超出正常範圍</span>`;
                     return;
                 }
-                
+
                 data['systolic_pressure'] = systolicValue;
                 data['diastolic_pressure'] = diastolicValue;
                 hasValue = true;
@@ -1827,6 +2631,167 @@
                 saveRecordBtn.disabled = false;
             }
         });
+
+        // --- 分析按鈕事件監聽器 ---
+        // 在 DOM 載入後設置分析按鈕事件
+        setTimeout(() => {
+            const aiAnalysisBtn = document.getElementById('aiAnalysisBtn');
+            const statsAnalysisBtn = document.getElementById('statsAnalysisBtn');
+            
+            if (aiAnalysisBtn) {
+                aiAnalysisBtn.addEventListener('click', async function() {
+                    if (!currentViewingType || !userProfile) return;
+                    
+                    const targetPerson = getSelectedPerson();
+                    const personLogs = allLogs.filter(log =>
+                        log.recorder_id === userProfile.userId &&
+                        log.target_person === targetPerson
+                    );
+                    const filteredLogs = personLogs.filter(log =>
+                        currentViewingType.fields.every(f => log[f] != null)
+                    );
+                    
+                    if (filteredLogs.length < 3) {
+                        showAlert('數據不足', '需要至少 3 筆記錄才能進行 AI 分析');
+                        return;
+                    }
+                    
+                    const resultDiv = document.getElementById('aiAnalysisResult');
+                    const btn = this;
+                    
+                    try {
+                        // 顯示載入狀態
+                        btn.disabled = true;
+                        btn.innerHTML = '<div class="loading-spinner-small"></div><span>分析中...</span>';
+                        resultDiv.classList.remove('hidden');
+                        resultDiv.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><p>AI 正在分析您的健康數據...</p></div>';
+                        
+                        // 調用 AI 分析
+                        const analysisResult = await aiHealthAnalyzer.analyzeHealthData(filteredLogs, currentViewingType, targetPerson);
+                        
+                        // 顯示分析結果
+                        let resultHTML = '';
+                        
+                        if (analysisResult.insights && analysisResult.insights.length > 0) {
+                            resultHTML += '<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">🔍 健康洞察</h4>';
+                            resultHTML += aiHealthAnalyzer.formatInsights(analysisResult.insights);
+                            resultHTML += '</div>';
+                        }
+                        
+                        if (analysisResult.recommendations && analysisResult.recommendations.length > 0) {
+                            resultHTML += '<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">💡 個人化建議</h4>';
+                            resultHTML += aiHealthAnalyzer.formatRecommendations(analysisResult.recommendations);
+                            resultHTML += '</div>';
+                        }
+                        
+                        if (analysisResult.scores && analysisResult.scores.overall > 0) {
+                            resultHTML += `<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">📊 健康評分</h4>
+                                <div class="bg-white/80 rounded-lg p-4 border border-gray-200">
+                                    <div class="text-center">
+                                        <div class="text-3xl font-bold text-blue-600 mb-2">${Math.round(analysisResult.scores.overall)}</div>
+                                        <div class="text-sm text-gray-600">總體健康評分</div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                        
+                        if (!resultHTML) {
+                            resultHTML = '<p class="text-gray-500">分析完成，但暫無特殊發現。請繼續保持良好的健康習慣！</p>';
+                        }
+                        
+                        resultDiv.innerHTML = resultHTML;
+                        
+                    } catch (error) {
+                        console.error('AI 分析失敗:', error);
+                        resultDiv.innerHTML = `<div class="text-red-600 p-4 bg-red-50 rounded-lg border border-red-200">
+                            <p class="font-medium">分析失敗</p>
+                            <p class="text-sm mt-1">${error.message}</p>
+                        </div>`;
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = '<span class="btn-icon">🔍</span><span>重新分析</span>';
+                    }
+                });
+            }
+            
+            if (statsAnalysisBtn) {
+                statsAnalysisBtn.addEventListener('click', function() {
+                    if (!currentViewingType) return;
+                    
+                    const targetPerson = getSelectedPerson();
+                    const personLogs = allLogs.filter(log =>
+                        log.recorder_id === userProfile.userId &&
+                        log.target_person === targetPerson
+                    );
+                    const filteredLogs = personLogs.filter(log =>
+                        currentViewingType.fields.every(f => log[f] != null)
+                    );
+                    
+                    if (filteredLogs.length < 2) {
+                        showAlert('數據不足', '需要至少 2 筆記錄才能進行統計分析');
+                        return;
+                    }
+                    
+                    const resultDiv = document.getElementById('statsAnalysisResult');
+                    const stats = healthStatsCalculator.calculateStats(filteredLogs, currentViewingType);
+                    
+                    if (stats) {
+                        let resultHTML = '<div class="stats-grid">';
+                        
+                        if (currentViewingType.key === 'blood_pressure') {
+                            resultHTML += `
+                                <div class="stat-item">
+                                    <div class="stat-label">收縮壓平均</div>
+                                    <div class="stat-value">${Math.round(stats.systolic.avg)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">舒張壓平均</div>
+                                    <div class="stat-value">${Math.round(stats.diastolic.avg)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">收縮壓範圍</div>
+                                    <div class="stat-value">${stats.systolic.min}-${stats.systolic.max}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">舒張壓範圍</div>
+                                    <div class="stat-value">${stats.diastolic.min}-${stats.diastolic.max}</div>
+                                </div>
+                            `;
+                        } else {
+                            resultHTML += `
+                                <div class="stat-item">
+                                    <div class="stat-label">平均值</div>
+                                    <div class="stat-value">${stats.avg.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">最小值</div>
+                                    <div class="stat-value">${stats.min}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">最大值</div>
+                                    <div class="stat-value">${stats.max}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">中位數</div>
+                                    <div class="stat-value">${stats.median.toFixed(1)}</div>
+                                </div>
+                            `;
+                        }
+                        
+                        resultHTML += '</div>';
+                        
+                        const trendDisplay = healthStatsCalculator.getTrendDisplay(stats.trend, currentViewingType);
+                        resultHTML += `<div class="trend-indicator ${trendDisplay.class} mt-4">
+                            <span class="trend-icon">${trendDisplay.icon}</span>
+                            <span class="trend-text">${trendDisplay.text}</span>
+                        </div>`;
+                        
+                        resultDiv.innerHTML = resultHTML;
+                        resultDiv.classList.remove('hidden');
+                    }
+                });
+            }
+        }, 2000); // 延遲2秒確保所有元素都已載入
 
         // --- 啟動 ---
         document.addEventListener('DOMContentLoaded', initializeLiff);

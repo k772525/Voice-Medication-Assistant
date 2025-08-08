@@ -1066,29 +1066,35 @@ class DB:
                     # 處理不同格式的時間字串
                     if record_time_str.endswith('Z'):
                         # UTC 時間格式 (2025-01-01T12:00:00Z)
-                        record_time = datetime.fromisoformat(record_time_str.replace('Z', '+00:00'))
-                        print(f"[DEBUG] 解析為 UTC 時間")
+                        # 將 UTC 時間轉換為台灣時間（UTC+8）
+                        utc_time = datetime.fromisoformat(record_time_str.replace('Z', '+00:00'))
+                        taipei_tz = pytz.timezone('Asia/Taipei')
+                        record_time = utc_time.astimezone(taipei_tz).replace(tzinfo=None)
+                        print(f"[DEBUG] UTC 時間轉換為台灣時間: {utc_time} -> {record_time}")
                     elif 'T' in record_time_str:
                         # ISO 格式的本地時間 (2025-01-01T12:00:00)
                         if '+' in record_time_str or '-' in record_time_str.split('T')[1]:
-                            # 包含時區資訊
-                            record_time = datetime.fromisoformat(record_time_str)
-                            print(f"[DEBUG] 解析為帶時區的時間")
+                            # 包含時區資訊，轉換為台灣時間
+                            tz_aware_time = datetime.fromisoformat(record_time_str)
+                            taipei_tz = pytz.timezone('Asia/Taipei')
+                            record_time = tz_aware_time.astimezone(taipei_tz).replace(tzinfo=None)
+                            print(f"[DEBUG] 帶時區時間轉換為台灣時間: {tz_aware_time} -> {record_time}")
                         else:
-                            # 本地時間格式，直接解析（視為當地時間）
+                            # 本地時間格式，直接解析（已經是台灣時間）
                             record_time = datetime.fromisoformat(record_time_str)
-                            print(f"[DEBUG] 解析為本地時間")
+                            print(f"[DEBUG] 直接使用本地時間（台灣時間）: {record_time}")
                     else:
                         # 其他格式，嘗試直接解析
                         record_time = datetime.fromisoformat(record_time_str)
-                        print(f"[DEBUG] 嘗試直接解析時間")
+                        print(f"[DEBUG] 嘗試直接解析時間: {record_time}")
                     
-                    print(f"[DEBUG] 最終解析的時間: {record_time}")
+                    print(f"[DEBUG] 最終儲存的時間: {record_time}")
                     
                 except (ValueError, TypeError) as e:
-                    print(f"[ERROR] 時間解析失敗: {e}，使用當前時間")
-                    record_time = datetime.now()
-                    print(f"[DEBUG] 使用當前時間: {record_time}")
+                    print(f"[ERROR] 時間解析失敗: {e}，使用當前台灣時間")
+                    taipei_tz = pytz.timezone('Asia/Taipei')
+                    record_time = datetime.now(taipei_tz).replace(tzinfo=None)
+                    print(f"[DEBUG] 使用當前台灣時間: {record_time}")
                 
                 values = [log_data['recorderId'], target_person, record_time]
                 
