@@ -36,7 +36,7 @@ docker push us-central1-docker.pkg.dev/gcp1-462701/pill-test/linebot0725:latest
 ```
 
 ``
-gcloud run deploy linebot0725 --image=us-central1-docker.pkg.dev/gcp1-462701/pill-test/linebot0725:latest --region=us-central1 --platform=managed --allow-unauthenticated --env-vars-file=env.yaml --min-instances=1 --memory=1Gi --timeout=300s
+gcloud run deploy linebot0725 --image=us-central1-docker.pkg.dev/gcp1-462701/pill-test/linebot0725:latest --region=us-central1 --platform=managed --allow-unauthenticated --env-vars-file=env.yaml --min-instances=1 --memory=4Gi --timeout=300s
 
 ### 4. 設定 Cloud Scheduler
 ```bash

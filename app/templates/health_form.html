@@ -590,20 +590,6 @@
                 inset 0 -1px 2px rgba(0, 0, 0, 0.08);
         }
 
-        /* 分析框框樣式 */
-        .analysis-cards-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .analysis-cards-container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
 
         .analysis-card {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
@@ -682,7 +668,6 @@
         }
 
         .analysis-btn {
-            width: 100%;
             background: linear-gradient(145deg, #667eea, #764ba2);
             color: white;
             border: none;
@@ -835,10 +820,6 @@
             border-left: 4px solid #0ea5e9;
         }
 
-        .stats-card {
-            background: linear-gradient(145deg, #f0fdf4, #dcfce7);
-            border-left: 4px solid #22c55e;
-        }
 
         .analysis-button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -943,6 +924,34 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* 收合動畫樣式 */
+        .analysis-content {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .analysis-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin: 0;
+        }
+
+        .analysis-content:not(.collapsed) {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .toggle-btn {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn.rotated {
+            transform: rotate(180deg);
+        }
+
     </style>
 </head>
 
@@ -999,52 +1008,38 @@
 
 
 
-                    <!-- 分析卡片區域 -->
-                    <div class="analysis-cards-container mb-6">
+                    <!-- AI 分析卡片區域 -->
+                    <div class="mb-6">
                         <!-- AI 分析卡片 -->
                         <div class="analysis-card ai-analysis-card">
                             <div class="card-header">
                                 <h3>🤖 AI 健康分析</h3>
                                 <span class="powered-by">Powered by Gemini</span>
                             </div>
-                            <div class="stats-grid mb-4">
-                                <div class="stat-item">
-                                    <div class="stat-label">數據點</div>
-                                    <div class="stat-value" id="aiDataCount">-</div>
+                            <div id="analysisContent" class="analysis-content">
+                                <div class="stats-grid mb-4">
+                                    <div class="stat-item">
+                                        <div class="stat-label">數據</div>
+                                        <div class="stat-value" id="aiDataCount">-</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-label">健康評分</div>
+                                        <div class="stat-value" id="aiHealthScore">-</div>
+                                    </div>
                                 </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">健康評分</div>
-                                    <div class="stat-value" id="aiHealthScore">-</div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <button id="aiAnalysisBtn" class="analysis-btn flex-1">
+                                        <span class="btn-icon">🔍</span>
+                                        <span>開始 AI 分析</span>
+                                    </button>
+                                    <button id="toggleAnalysisBtn" onclick="toggleAnalysisCard()"
+                                        class="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-lg border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50" 
+                                        title="收合/展開">
+                                        <span id="toggleIcon">▲</span>
+                                    </button>
                                 </div>
+                                <div id="aiAnalysisResult" class="analysis-result hidden"></div>
                             </div>
-                            <button id="aiAnalysisBtn" class="analysis-btn">
-                                <span class="btn-icon">🔍</span>
-                                <span>開始 AI 分析</span>
-                            </button>
-                            <div id="aiAnalysisResult" class="analysis-result hidden"></div>
-                        </div>
-
-                        <!-- 統計分析卡片 -->
-                        <div class="analysis-card stats-card">
-                            <div class="card-header">
-                                <h3>📊 統計分析</h3>
-                                <span class="data-count" id="statsDataCount">0 筆數據</span>
-                            </div>
-                            <div class="stats-grid mb-4">
-                                <div class="stat-item">
-                                    <div class="stat-label">平均值</div>
-                                    <div class="stat-value" id="statsAverage">-</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">趨勢</div>
-                                    <div class="stat-value" id="statsTrend">-</div>
-                                </div>
-                            </div>
-                            <button id="statsAnalysisBtn" class="analysis-btn">
-                                <span class="btn-icon">📈</span>
-                                <span>統計分析</span>
-                            </button>
-                            <div id="statsAnalysisResult" class="analysis-result hidden"></div>
                         </div>
                     </div>
 
@@ -1169,7 +1164,6 @@
         let recordsPerPage = 5;
         let totalRecords = 0;
         let allHistoryLogs = [];
-        let healthStatsCalculator = null;
         let aiHealthAnalyzer = null;
         const measurementTypes = [
             { key: 'weight', name: '體重', icon: '<span class="animated-emoji">⚖️</span>', unit: 'kg', color: 'text-orange-500', fields: ['weight'] },
@@ -1329,7 +1323,6 @@
                     console.log("分頁事件設置完成");
 
                     // 初始化分析功能
-                    healthStatsCalculator = new HealthStatsCalculator();
                     aiHealthAnalyzer = new AIHealthAnalyzer();
                     console.log("分析功能初始化完成");
 
@@ -1395,100 +1388,28 @@
             }
         }
 
-        // --- 健康統計計算器 ---
-        class HealthStatsCalculator {
-            constructor() {
-                this.stats = {};
+
+        // --- 收合功能 ---
+        function toggleAnalysisCard() {
+            const resultDiv = document.getElementById('aiAnalysisResult');
+            const icon = document.getElementById('toggleIcon');
+            const btn = document.getElementById('toggleAnalysisBtn');
+            
+            if (resultDiv.classList.contains('hidden')) {
+                // 如果結果區域是隱藏的，則不進行任何操作
+                return;
             }
-
-            calculateStats(logs, type) {
-                if (!logs || logs.length === 0) {
-                    return null;
-                }
-
-                const values = [];
-
-                if (type.key === 'blood_pressure') {
-                    const systolicValues = logs.filter(log => log.systolic_pressure != null).map(log => log.systolic_pressure);
-                    const diastolicValues = logs.filter(log => log.diastolic_pressure != null).map(log => log.diastolic_pressure);
-
-                    if (systolicValues.length === 0 || diastolicValues.length === 0) {
-                        return null;
-                    }
-
-                    return {
-                        systolic: this.calculateBasicStats(systolicValues),
-                        diastolic: this.calculateBasicStats(diastolicValues),
-                        count: Math.min(systolicValues.length, diastolicValues.length),
-                        trend: this.calculateTrend(systolicValues.slice(-5))
-                    };
-                } else {
-                    const fieldValues = logs.filter(log => log[type.key] != null).map(log => log[type.key]);
-
-                    if (fieldValues.length === 0) {
-                        return null;
-                    }
-
-                    return {
-                        ...this.calculateBasicStats(fieldValues),
-                        count: fieldValues.length,
-                        trend: this.calculateTrend(fieldValues.slice(-5))
-                    };
-                }
-            }
-
-            calculateBasicStats(values) {
-                if (!values || values.length === 0) return null;
-
-                const sorted = [...values].sort((a, b) => a - b);
-                const sum = values.reduce((acc, val) => acc + val, 0);
-                const avg = sum / values.length;
-
-                // 計算標準差
-                const variance = values.reduce((acc, val) => acc + Math.pow(val - avg, 2), 0) / values.length;
-                const stdDev = Math.sqrt(variance);
-
-                return {
-                    min: sorted[0],
-                    max: sorted[sorted.length - 1],
-                    avg: avg,
-                    stdDev: stdDev,
-                    median: this.calculateMedian(sorted)
-                };
-            }
-
-            calculateMedian(sortedValues) {
-                const mid = Math.floor(sortedValues.length / 2);
-                return sortedValues.length % 2 === 0
-                    ? (sortedValues[mid - 1] + sortedValues[mid]) / 2
-                    : sortedValues[mid];
-            }
-
-            calculateTrend(recentValues) {
-                if (!recentValues || recentValues.length < 2) {
-                    return 'stable';
-                }
-
-                const firstHalf = recentValues.slice(0, Math.ceil(recentValues.length / 2));
-                const secondHalf = recentValues.slice(Math.floor(recentValues.length / 2));
-
-                const firstAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;
-                const secondAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
-
-                const change = ((secondAvg - firstAvg) / firstAvg) * 100;
-
-                if (Math.abs(change) < 5) return 'stable';
-                return change > 0 ? 'up' : 'down';
-            }
-
-            getTrendDisplay(trend, type) {
-                const trends = {
-                    'up': { icon: '📈', text: '上升趨勢', class: 'trend-up' },
-                    'down': { icon: '📉', text: '下降趨勢', class: 'trend-down' },
-                    'stable': { icon: '➡️', text: '穩定', class: 'trend-stable' }
-                };
-
-                return trends[trend] || trends['stable'];
+            
+            if (resultDiv.style.display === 'none') {
+                // 展開結果
+                resultDiv.style.display = 'block';
+                icon.textContent = '▲';
+                btn.title = '收合結果';
+            } else {
+                // 收合結果
+                resultDiv.style.display = 'none';
+                icon.textContent = '▼';
+                btn.title = '展開結果';
             }
         }
 
@@ -1554,35 +1475,15 @@
                     return '<p class="text-gray-500">暫無分析洞察</p>';
                 }
 
-                return insights.map(insight => {
-                    const typeIcons = {
-                        'trend': '📈',
-                        'warning': '⚠️',
-                        'improvement': '✅',
-                        'stable': '➡️',
-                        'risk': '🚨',
-                        'normal': '😊'
-                    };
-
-                    const icon = typeIcons[insight.type] || '💡';
-                    let trendInfo = '';
-                    
-                    if (insight.trend) {
-                        const trendIcon = insight.trend.direction === 'up' ? '📈' :
-                                        insight.trend.direction === 'down' ? '📉' : '➡️';
-                        trendInfo = `<div class="trend-indicator trend-${insight.trend.direction} mt-2">
-                            <span class="trend-icon">${trendIcon}</span>
-                            <span class="trend-text">${insight.trend.description}</span>
-                        </div>`;
-                    }
-
-                    return `<div class="mb-4 p-3 bg-white/60 rounded-lg border border-gray-200">
+                // 只顯示前2個最重要的洞察
+                const topInsights = insights.slice(0, 2);
+                
+                return topInsights.map(insight => {
+                    const icon = '💡';
+                    return `<div class="mb-3 p-3 bg-white/60 rounded-lg border border-gray-200">
                         <div class="flex items-start gap-2">
                             <span class="text-lg">${icon}</span>
-                            <div class="flex-1">
-                                <p class="text-gray-800 font-medium">${insight.message}</p>
-                                ${trendInfo}
-                            </div>
+                            <p class="text-gray-800 font-medium text-sm">${insight.message}</p>
                         </div>
                     </div>`;
                 }).join('');
@@ -1593,30 +1494,12 @@
                     return '<p class="text-gray-500">暫無建議</p>';
                 }
 
-                return recommendations.map(rec => {
-                    const priorityColors = {
-                        'high': 'bg-red-100 text-red-800 border-red-200',
-                        'medium': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                        'low': 'bg-green-100 text-green-800 border-green-200'
-                    };
-
-                    const priorityLabels = {
-                        'high': '高優先級',
-                        'medium': '中優先級',
-                        'low': '低優先級'
-                    };
-
-                    const priorityClass = priorityColors[rec.priority] || priorityColors['medium'];
-                    const priorityLabel = priorityLabels[rec.priority] || '一般';
-
-                    return `<div class="mb-4 p-4 bg-white/80 rounded-lg border border-gray-200">
-                        <div class="flex items-center justify-between mb-2">
-                            <h4 class="font-semibold text-gray-800">${rec.title}</h4>
-                            <span class="px-2 py-1 text-xs font-medium rounded-full border ${priorityClass}">
-                                ${priorityLabel}
-                            </span>
-                        </div>
-                        <p class="text-gray-700 text-sm leading-relaxed">${rec.content}</p>
+                // 只顯示前2個最重要的建議
+                const topRecommendations = recommendations.slice(0, 2);
+                
+                return topRecommendations.map(rec => {
+                    return `<div class="mb-3 p-3 bg-white/80 rounded-lg border border-gray-200">
+                        <p class="text-gray-700 text-sm leading-relaxed">${rec.content || rec.title}</p>
                     </div>`;
                 }).join('');
             }
@@ -1775,6 +1658,7 @@
                     day: '2-digit',
                     hour: '2-digit',
                     minute: '2-digit',
+                    hour12: false,
                     timeZone: 'Asia/Taipei'
                 });
             });
@@ -2003,6 +1887,7 @@
                     day: '2-digit',
                     hour: '2-digit',
                     minute: '2-digit',
+                    hour12: false,
                     timeZone: 'Asia/Taipei'
                 })}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
@@ -2094,45 +1979,27 @@
             
             // 更新數據計數
             document.getElementById('aiDataCount').textContent = filteredLogs.length;
-            document.getElementById('statsDataCount').textContent = `${filteredLogs.length} 筆數據`;
             
-            // 計算統計數據
+            // 計算健康評分
             if (filteredLogs.length > 0) {
-                const stats = healthStatsCalculator.calculateStats(filteredLogs, type);
-                if (stats) {
-                    if (type.key === 'blood_pressure') {
-                        document.getElementById('statsAverage').textContent =
-                            `${Math.round(stats.systolic.avg)}/${Math.round(stats.diastolic.avg)}`;
-                        document.getElementById('aiHealthScore').textContent =
-                            calculateBloodPressureScore(stats.systolic.avg, stats.diastolic.avg);
-                    } else {
-                        document.getElementById('statsAverage').textContent =
-                            `${stats.avg.toFixed(1)} ${type.unit}`;
-                        document.getElementById('aiHealthScore').textContent =
-                            calculateHealthScore(stats.avg, type);
-                    }
-                    
-                    const trendDisplay = healthStatsCalculator.getTrendDisplay(stats.trend, type);
-                    document.getElementById('statsTrend').innerHTML =
-                        `<span class="${trendDisplay.class}">${trendDisplay.icon}</span>`;
+                if (type.key === 'blood_pressure') {
+                    const latestLog = filteredLogs[0];
+                    document.getElementById('aiHealthScore').textContent =
+                        calculateBloodPressureScore(latestLog.systolic_pressure, latestLog.diastolic_pressure);
                 } else {
-                    document.getElementById('statsAverage').textContent = '-';
-                    document.getElementById('statsTrend').textContent = '-';
-                    document.getElementById('aiHealthScore').textContent = '-';
+                    const latestLog = filteredLogs[0];
+                    document.getElementById('aiHealthScore').textContent =
+                        calculateHealthScore(latestLog[type.key], type);
                 }
             } else {
-                document.getElementById('statsAverage').textContent = '-';
-                document.getElementById('statsTrend').textContent = '-';
                 document.getElementById('aiHealthScore').textContent = '-';
             }
             
             // 重置分析結果
             document.getElementById('aiAnalysisResult').classList.add('hidden');
-            document.getElementById('statsAnalysisResult').classList.add('hidden');
             
             // 更新按鈕狀態
             const aiBtn = document.getElementById('aiAnalysisBtn');
-            const statsBtn = document.getElementById('statsAnalysisBtn');
             
             if (filteredLogs.length < 3) {
                 aiBtn.disabled = true;
@@ -2140,14 +2007,6 @@
             } else {
                 aiBtn.disabled = false;
                 aiBtn.innerHTML = '<span class="btn-icon">🔍</span><span>開始 AI 分析</span>';
-            }
-            
-            if (filteredLogs.length < 2) {
-                statsBtn.disabled = true;
-                statsBtn.innerHTML = '<span class="btn-icon">📊</span><span>需要更多數據</span>';
-            } else {
-                statsBtn.disabled = false;
-                statsBtn.innerHTML = '<span class="btn-icon">📈</span><span>統計分析</span>';
             }
         }
 
@@ -2632,11 +2491,10 @@
             }
         });
 
-        // --- 分析按鈕事件監聽器 ---
+        // --- AI 分析按鈕事件監聽器 ---
         // 在 DOM 載入後設置分析按鈕事件
         setTimeout(() => {
             const aiAnalysisBtn = document.getElementById('aiAnalysisBtn');
-            const statsAnalysisBtn = document.getElementById('statsAnalysisBtn');
             
             if (aiAnalysisBtn) {
                 aiAnalysisBtn.addEventListener('click', async function() {
@@ -2669,37 +2527,41 @@
                         // 調用 AI 分析
                         const analysisResult = await aiHealthAnalyzer.analyzeHealthData(filteredLogs, currentViewingType, targetPerson);
                         
-                        // 顯示分析結果
+                        // 顯示簡化的分析結果
                         let resultHTML = '';
                         
-                        if (analysisResult.insights && analysisResult.insights.length > 0) {
-                            resultHTML += '<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">🔍 健康洞察</h4>';
-                            resultHTML += aiHealthAnalyzer.formatInsights(analysisResult.insights);
-                            resultHTML += '</div>';
-                        }
+                        // 合併洞察和建議到一個簡潔的區塊
+                        const hasInsights = analysisResult.insights && analysisResult.insights.length > 0;
+                        const hasRecommendations = analysisResult.recommendations && analysisResult.recommendations.length > 0;
                         
-                        if (analysisResult.recommendations && analysisResult.recommendations.length > 0) {
-                            resultHTML += '<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">💡 個人化建議</h4>';
-                            resultHTML += aiHealthAnalyzer.formatRecommendations(analysisResult.recommendations);
+                        if (hasInsights || hasRecommendations) {
+                            resultHTML += '<div class="mb-4">';
+                            
+                            if (hasInsights) {
+                                resultHTML += aiHealthAnalyzer.formatInsights(analysisResult.insights);
+                            }
+                            
+                            if (hasRecommendations) {
+                                resultHTML += aiHealthAnalyzer.formatRecommendations(analysisResult.recommendations);
+                            }
+                            
                             resultHTML += '</div>';
-                        }
-                        
-                        if (analysisResult.scores && analysisResult.scores.overall > 0) {
-                            resultHTML += `<div class="mb-4"><h4 class="font-semibold text-gray-800 mb-3">📊 健康評分</h4>
-                                <div class="bg-white/80 rounded-lg p-4 border border-gray-200">
-                                    <div class="text-center">
-                                        <div class="text-3xl font-bold text-blue-600 mb-2">${Math.round(analysisResult.scores.overall)}</div>
-                                        <div class="text-sm text-gray-600">總體健康評分</div>
-                                    </div>
-                                </div>
-                            </div>`;
                         }
                         
                         if (!resultHTML) {
-                            resultHTML = '<p class="text-gray-500">分析完成，但暫無特殊發現。請繼續保持良好的健康習慣！</p>';
+                            resultHTML = '<p class="text-gray-500 text-sm">分析完成，數據正常。請繼續保持良好的健康習慣！</p>';
                         }
                         
                         resultDiv.innerHTML = resultHTML;
+                        
+                        // 更新收合按鈕狀態
+                        const toggleBtn = document.getElementById('toggleAnalysisBtn');
+                        const toggleIcon = document.getElementById('toggleIcon');
+                        if (toggleBtn && toggleIcon) {
+                            resultDiv.style.display = 'block';
+                            toggleIcon.textContent = '▲';
+                            toggleBtn.title = '收合結果';
+                        }
                         
                     } catch (error) {
                         console.error('AI 分析失敗:', error);
@@ -2713,85 +2575,8 @@
                     }
                 });
             }
-            
-            if (statsAnalysisBtn) {
-                statsAnalysisBtn.addEventListener('click', function() {
-                    if (!currentViewingType) return;
-                    
-                    const targetPerson = getSelectedPerson();
-                    const personLogs = allLogs.filter(log =>
-                        log.recorder_id === userProfile.userId &&
-                        log.target_person === targetPerson
-                    );
-                    const filteredLogs = personLogs.filter(log =>
-                        currentViewingType.fields.every(f => log[f] != null)
-                    );
-                    
-                    if (filteredLogs.length < 2) {
-                        showAlert('數據不足', '需要至少 2 筆記錄才能進行統計分析');
-                        return;
-                    }
-                    
-                    const resultDiv = document.getElementById('statsAnalysisResult');
-                    const stats = healthStatsCalculator.calculateStats(filteredLogs, currentViewingType);
-                    
-                    if (stats) {
-                        let resultHTML = '<div class="stats-grid">';
-                        
-                        if (currentViewingType.key === 'blood_pressure') {
-                            resultHTML += `
-                                <div class="stat-item">
-                                    <div class="stat-label">收縮壓平均</div>
-                                    <div class="stat-value">${Math.round(stats.systolic.avg)}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">舒張壓平均</div>
-                                    <div class="stat-value">${Math.round(stats.diastolic.avg)}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">收縮壓範圍</div>
-                                    <div class="stat-value">${stats.systolic.min}-${stats.systolic.max}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">舒張壓範圍</div>
-                                    <div class="stat-value">${stats.diastolic.min}-${stats.diastolic.max}</div>
-                                </div>
-                            `;
-                        } else {
-                            resultHTML += `
-                                <div class="stat-item">
-                                    <div class="stat-label">平均值</div>
-                                    <div class="stat-value">${stats.avg.toFixed(1)}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">最小值</div>
-                                    <div class="stat-value">${stats.min}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">最大值</div>
-                                    <div class="stat-value">${stats.max}</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-label">中位數</div>
-                                    <div class="stat-value">${stats.median.toFixed(1)}</div>
-                                </div>
-                            `;
-                        }
-                        
-                        resultHTML += '</div>';
-                        
-                        const trendDisplay = healthStatsCalculator.getTrendDisplay(stats.trend, currentViewingType);
-                        resultHTML += `<div class="trend-indicator ${trendDisplay.class} mt-4">
-                            <span class="trend-icon">${trendDisplay.icon}</span>
-                            <span class="trend-text">${trendDisplay.text}</span>
-                        </div>`;
-                        
-                        resultDiv.innerHTML = resultHTML;
-                        resultDiv.classList.remove('hidden');
-                    }
-                });
-            }
         }, 2000); // 延遲2秒確保所有元素都已載入
+
 
         // --- 啟動 ---
         document.addEventListener('DOMContentLoaded', initializeLiff);

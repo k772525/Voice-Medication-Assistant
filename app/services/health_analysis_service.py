@@ -43,10 +43,17 @@ class HealthAnalysisService:
             # 預處理健康數據
             processed_data = self._preprocess_health_data(health_data)
             
-            # 生成 AI 分析
-            insights = self._generate_health_insights(processed_data, target_person)
+            # 嘗試 AI 分析，如果失敗則使用增強基本分析
+            try:
+                insights = self._generate_health_insights(processed_data, target_person)
+                recommendations = self._generate_recommendations(processed_data, target_person)
+                current_app.logger.info("AI 分析成功完成")
+            except Exception as ai_error:
+                current_app.logger.warning(f"AI 分析失敗，使用增強基本分析: {ai_error}")
+                insights = self._generate_enhanced_basic_insights(processed_data, target_person)
+                recommendations = self._generate_enhanced_basic_recommendations(processed_data, target_person)
+            
             scores = self._calculate_health_scores(processed_data)
-            recommendations = self._generate_recommendations(processed_data, target_person)
             
             return {
                 'insights': insights,
@@ -176,57 +183,120 @@ class HealthAnalysisService:
             # 準備數據摘要
             data_summary = self._create_data_summary(processed_data)
             
-            prompt = f"""
-你是一位專業的健康分析師。請分析以下健康數據，為 {target_person} 提供專業的健康洞察。
+            # 準備完整的健康數據統計
+            data_summary = self._create_data_summary(processed_data)
+            total_points = data_summary.get('data_points', 0)
+            statistics = data_summary.get('statistics', {})
+            abnormal_counts = data_summary.get('abnormal_counts', {})
+            
+            # 構建詳細的健康數據分析
+            analysis_details = []
+            
+            # 血壓分析
+            if 'blood_pressure' in statistics:
+                bp_stats = statistics['blood_pressure']
+                bp_abnormal = abnormal_counts.get('blood_pressure', 0)
+                analysis_details.append(f"血壓{bp_stats['count']}筆，平均{bp_stats['avg_systolic']:.0f}/{bp_stats['avg_diastolic']:.0f}，{bp_abnormal}次異常")
+            
+            # 其他指標分析
+            for metric in ['weight', 'blood_sugar', 'temperature', 'blood_oxygen']:
+                if metric in statistics:
+                    stats = statistics[metric]
+                    abnormal = abnormal_counts.get(metric, 0)
+                    metric_name = {'weight': '體重', 'blood_sugar': '血糖', 'temperature': '體溫', 'blood_oxygen': '血氧'}[metric]
+                    analysis_details.append(f"{metric_name}{stats['count']}筆，平均{stats['avg']:.1f}，{abnormal}次異常")
+            
+            health_analysis = f"總計{total_points}筆記錄。" + "；".join(analysis_details[:2])
+            
+            prompt = f"""健康數據完整分析：{health_analysis}
 
-健康數據摘要：
-{json.dumps(data_summary, ensure_ascii=False, indent=2)}
-
-請生成 3-5 個健康洞察，每個洞察包含：
-1. type: 洞察類型 (trend/warning/improvement/stable/risk/normal)
-2. message: 洞察內容 (繁體中文，簡潔明瞭)
-3. trend: 趨勢資訊 (如果適用)
-   - direction: up/down/stable
-   - description: 趨勢描述
-
-請以 JSON 格式回傳：
+提供2個基於完整數據的觀察，JSON格式：
 [
-  {{
-    "type": "trend",
-    "message": "您的血壓在過去一週呈現上升趨勢",
-    "trend": {{
-      "direction": "up",
-      "description": "較前期上升 5%"
-    }}
-  }}
+  {{"type": "trend", "message": "基於所有記錄的趨勢分析"}},
+  {{"type": "normal", "message": "整體健康狀況綜合評估"}}
 ]
 
-注意：
-- 訊息要具體且有建設性
-- 避免過於技術性的術語
-- 重點關注異常值和趨勢變化
-- 如果數據正常，也要給予正面回饋
-"""
+要求：每個觀察不超過30字，基於完整統計數據。"""
 
             response = self.model.generate_content(
                 prompt,
                 generation_config=genai.types.GenerationConfig(
-                    temperature=0.3,
-                    top_p=0.8,
-                    top_k=40,
-                    max_output_tokens=1024,
-                )
+                    temperature=0.0,
+                    top_p=1.0,
+                    top_k=1,
+                    max_output_tokens=200,
+                ),
+                safety_settings=[
+                    {
+                        "category": "HARM_CATEGORY_HARASSMENT",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_HATE_SPEECH",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                        "threshold": "BLOCK_NONE"
+                    }
+                ]
             )
             
-            if response.text:
-                clean_text = response.text.strip()
-                if clean_text.startswith('```json'):
-                    clean_text = clean_text[7:]
-                if clean_text.endswith('```'):
-                    clean_text = clean_text[:-3]
-                
-                insights = json.loads(clean_text.strip())
-                return insights if isinstance(insights, list) else []
+            # 嘗試多種方式獲取回應內容
+            text_content = None
+            
+            # 方法1: 直接獲取 text 屬性
+            try:
+                if hasattr(response, 'text') and response.text:
+                    text_content = response.text
+                    current_app.logger.info("成功通過 response.text 獲取內容")
+            except Exception as e:
+                current_app.logger.debug(f"無法通過 response.text 獲取內容: {e}")
+            
+            # 方法2: 通過 candidates 獲取
+            if not text_content and hasattr(response, 'candidates') and response.candidates:
+                try:
+                    candidate = response.candidates[0]
+                    if hasattr(candidate, 'content') and candidate.content:
+                        if hasattr(candidate.content, 'parts') and candidate.content.parts:
+                            for part in candidate.content.parts:
+                                if hasattr(part, 'text') and part.text:
+                                    text_content = part.text
+                                    current_app.logger.info("成功通過 candidates 獲取內容")
+                                    break
+                except Exception as e:
+                    current_app.logger.debug(f"無法通過 candidates 獲取內容: {e}")
+            
+            # 處理獲取到的內容
+            if text_content:
+                try:
+                    clean_text = text_content.strip()
+                    if clean_text.startswith('```json'):
+                        clean_text = clean_text[7:]
+                    if clean_text.endswith('```'):
+                        clean_text = clean_text[:-3]
+                    
+                    insights = json.loads(clean_text.strip())
+                    if isinstance(insights, list) and len(insights) > 0:
+                        current_app.logger.info(f"成功解析 AI 洞察: {len(insights)} 個")
+                        return insights
+                except Exception as parse_error:
+                    current_app.logger.error(f"解析 AI 回應失敗: {parse_error}, 原始內容: {text_content[:200]}")
+            
+            # 檢查是否被安全過濾器阻擋
+            if hasattr(response, 'candidates') and response.candidates:
+                candidate = response.candidates[0]
+                if hasattr(candidate, 'safety_ratings'):
+                    for rating in candidate.safety_ratings:
+                        if hasattr(rating, 'probability') and rating.probability.name in ['HIGH', 'MEDIUM']:
+                            current_app.logger.warning(f"AI 回應被安全過濾器阻擋: {rating.category.name}")
+                            break
+            
+            current_app.logger.warning("無法獲取有效的 AI 洞察回應，使用基本分析")
             
         except Exception as e:
             current_app.logger.error(f"生成健康洞察失敗: {e}")
@@ -326,52 +396,110 @@ class HealthAnalysisService:
         try:
             data_summary = self._create_data_summary(processed_data)
             
-            prompt = f"""
-你是一位專業的健康顧問。請根據以下健康數據，為 {target_person} 提供個人化的健康建議。
+            # 基於完整統計數據提供建議
+            data_summary = self._create_data_summary(processed_data)
+            total_points = data_summary.get('data_points', 0)
+            abnormal_counts = data_summary.get('abnormal_counts', {})
+            statistics = data_summary.get('statistics', {})
+            
+            # 計算總異常次數
+            total_abnormal = sum(abnormal_counts.values())
+            
+            # 構建統計摘要
+            stats_summary = []
+            for metric, stats in statistics.items():
+                abnormal = abnormal_counts.get(metric, 0)
+                if metric == 'blood_pressure':
+                    stats_summary.append(f"血壓{stats['count']}筆({abnormal}次異常)")
+                else:
+                    metric_name = {'weight': '體重', 'blood_sugar': '血糖', 'temperature': '體溫', 'blood_oxygen': '血氧'}[metric]
+                    stats_summary.append(f"{metric_name}{stats['count']}筆({abnormal}次異常)")
+            
+            summary_text = f"總計{total_points}筆，" + "，".join(stats_summary[:2])
+            
+            # 判斷優先級
+            priority = "high" if total_abnormal > 0 else "medium"
+            
+            prompt = f"""健康管理建議：{summary_text}
 
-健康數據摘要：
-{json.dumps(data_summary, ensure_ascii=False, indent=2)}
-
-請生成 2-4 個具體的健康建議，每個建議包含：
-1. title: 建議標題 (簡潔明瞭)
-2. content: 建議內容 (具體可行的建議)
-3. priority: 優先級 (high/medium/low)
-
-請以 JSON 格式回傳：
+提供2個基於完整數據的建議，JSON格式：
 [
-  {{
-    "title": "控制血壓",
-    "content": "建議減少鹽分攝取，每日鹽分不超過6克，多食用新鮮蔬果，並保持規律運動。",
-    "priority": "high"
-  }}
+  {{"title": "健康監測", "content": "基於統計數據的監測建議", "priority": "{priority}"}},
+  {{"title": "生活調整", "content": "根據異常模式的改善建議", "priority": "medium"}}
 ]
 
-注意：
-- 建議要具體且可執行
-- 根據數據異常情況設定優先級
-- 避免過於醫療化的建議
-- 重點關注生活方式改善
-"""
+要求：每個建議內容不超過25字，基於完整數據分析。"""
 
             response = self.model.generate_content(
                 prompt,
                 generation_config=genai.types.GenerationConfig(
-                    temperature=0.4,
-                    top_p=0.8,
-                    top_k=40,
-                    max_output_tokens=1024,
-                )
+                    temperature=0.0,
+                    top_p=1.0,
+                    top_k=1,
+                    max_output_tokens=400,  # 增加輸出長度限制
+                ),
+                safety_settings=[
+                    {
+                        "category": "HARM_CATEGORY_HARASSMENT",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_HATE_SPEECH",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                        "threshold": "BLOCK_NONE"
+                    },
+                    {
+                        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                        "threshold": "BLOCK_NONE"
+                    }
+                ]
             )
             
-            if response.text:
-                clean_text = response.text.strip()
-                if clean_text.startswith('```json'):
-                    clean_text = clean_text[7:]
-                if clean_text.endswith('```'):
-                    clean_text = clean_text[:-3]
-                
-                recommendations = json.loads(clean_text.strip())
-                return recommendations if isinstance(recommendations, list) else []
+            # 嘗試多種方式獲取回應內容
+            text_content = None
+            
+            # 方法1: 直接獲取 text 屬性
+            try:
+                if hasattr(response, 'text') and response.text:
+                    text_content = response.text
+                    current_app.logger.info("成功通過 response.text 獲取建議內容")
+            except Exception as e:
+                current_app.logger.debug(f"無法通過 response.text 獲取建議內容: {e}")
+            
+            # 方法2: 通過 candidates 獲取
+            if not text_content and hasattr(response, 'candidates') and response.candidates:
+                try:
+                    candidate = response.candidates[0]
+                    if hasattr(candidate, 'content') and candidate.content:
+                        if hasattr(candidate.content, 'parts') and candidate.content.parts:
+                            for part in candidate.content.parts:
+                                if hasattr(part, 'text') and part.text:
+                                    text_content = part.text
+                                    current_app.logger.info("成功通過 candidates 獲取建議內容")
+                                    break
+                except Exception as e:
+                    current_app.logger.debug(f"無法通過 candidates 獲取建議內容: {e}")
+            
+            # 處理獲取到的內容
+            if text_content:
+                try:
+                    clean_text = text_content.strip()
+                    if clean_text.startswith('```json'):
+                        clean_text = clean_text[7:]
+                    if clean_text.endswith('```'):
+                        clean_text = clean_text[:-3]
+                    
+                    recommendations = json.loads(clean_text.strip())
+                    if isinstance(recommendations, list) and len(recommendations) > 0:
+                        current_app.logger.info(f"成功解析 AI 建議: {len(recommendations)} 個")
+                        return recommendations
+                except Exception as parse_error:
+                    current_app.logger.error(f"解析 AI 建議回應失敗: {parse_error}, 原始內容: {text_content[:200]}")
+            
+            current_app.logger.warning("無法獲取有效的 AI 建議回應，使用基本建議")
             
         except Exception as e:
             current_app.logger.error(f"生成健康建議失敗: {e}")
@@ -380,42 +508,92 @@ class HealthAnalysisService:
         return self._generate_basic_recommendations(processed_data)
     
     def _create_data_summary(self, processed_data: Dict) -> Dict:
-        """創建數據摘要"""
+        """創建數據摘要 - 分析所有記錄而不只是最新一筆"""
         summary = {
             'data_points': 0,
             'latest_values': {},
+            'all_values': {},  # 新增：儲存所有數值用於分析
+            'statistics': {},  # 新增：統計數據
             'trends': processed_data.get('trends', {}),
-            'abnormal_readings': []
+            'abnormal_readings': [],
+            'abnormal_counts': {}  # 新增：異常次數統計
         }
         
-        # 最新數值
+        # 計算總數據點數（所有類型的記錄總和）
+        total_records = 0
+        
+        # 分析所有健康指標的完整數據
         for metric in ['weight', 'blood_sugar', 'temperature', 'blood_oxygen']:
             data = processed_data.get(metric, [])
             if data:
+                # 最新數值
                 summary['latest_values'][metric] = data[-1]['value']
-                summary['data_points'] += len(data)
+                
+                # 所有數值
+                values = [record['value'] for record in data]
+                summary['all_values'][metric] = values
+                
+                # 統計數據
+                summary['statistics'][metric] = {
+                    'count': len(values),
+                    'avg': sum(values) / len(values),
+                    'min': min(values),
+                    'max': max(values)
+                }
+                
+                # 異常檢測
+                abnormal_count = 0
+                if metric == 'blood_sugar':
+                    abnormal_count = sum(1 for v in values if v > 126)
+                    if abnormal_count > 0:
+                        summary['abnormal_readings'].append('血糖偏高')
+                elif metric == 'temperature':
+                    abnormal_count = sum(1 for v in values if v > 37.5)
+                    if abnormal_count > 0:
+                        summary['abnormal_readings'].append('體溫偏高')
+                elif metric == 'blood_oxygen':
+                    abnormal_count = sum(1 for v in values if v < 95)
+                    if abnormal_count > 0:
+                        summary['abnormal_readings'].append('血氧偏低')
+                
+                summary['abnormal_counts'][metric] = abnormal_count
+                total_records += len(data)
         
-        # 血壓
+        # 血壓完整分析
         bp_data = processed_data.get('blood_pressure', [])
         if bp_data:
+            # 最新數值
             latest_bp = bp_data[-1]
             summary['latest_values']['blood_pressure'] = f"{latest_bp['systolic']}/{latest_bp['diastolic']}"
-            summary['data_points'] += len(bp_data)
-        
-        # 異常讀數檢測
-        if summary['latest_values'].get('blood_pressure'):
-            bp = bp_data[-1]
-            if bp['systolic'] > 140 or bp['diastolic'] > 90:
+            
+            # 所有數值
+            systolic_values = [record['systolic'] for record in bp_data]
+            diastolic_values = [record['diastolic'] for record in bp_data]
+            summary['all_values']['blood_pressure'] = {
+                'systolic': systolic_values,
+                'diastolic': diastolic_values
+            }
+            
+            # 統計數據
+            summary['statistics']['blood_pressure'] = {
+                'count': len(bp_data),
+                'avg_systolic': sum(systolic_values) / len(systolic_values),
+                'avg_diastolic': sum(diastolic_values) / len(diastolic_values),
+                'min_systolic': min(systolic_values),
+                'max_systolic': max(systolic_values),
+                'min_diastolic': min(diastolic_values),
+                'max_diastolic': max(diastolic_values)
+            }
+            
+            # 異常檢測
+            abnormal_count = sum(1 for s, d in zip(systolic_values, diastolic_values) if s > 140 or d > 90)
+            if abnormal_count > 0:
                 summary['abnormal_readings'].append('血壓偏高')
+            summary['abnormal_counts']['blood_pressure'] = abnormal_count
+            
+            total_records += len(bp_data)
         
-        if summary['latest_values'].get('blood_sugar', 0) > 126:
-            summary['abnormal_readings'].append('血糖偏高')
-        
-        if summary['latest_values'].get('temperature', 0) > 37.5:
-            summary['abnormal_readings'].append('體溫偏高')
-        
-        if summary['latest_values'].get('blood_oxygen', 100) < 95:
-            summary['abnormal_readings'].append('血氧偏低')
+        summary['data_points'] = total_records
         
         return summary
     
