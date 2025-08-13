@@ -884,10 +884,32 @@
         .analysis-result {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.75rem;
             margin-top: 1rem;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            line-height: 1.6;
+            line-height: 1.4;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        @media (max-width: 640px) {
+            .analysis-result {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+                line-height: 1.3;
+            }
+            
+            .analysis-result div {
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .analysis-result p {
+                font-size: 0.8rem !important;
+                line-height: 1.2 !important;
+                margin: 0 !important;
+            }
         }
 
         .trend-indicator {
@@ -1008,61 +1030,62 @@
 
 
 
-                    <!-- AI 分析卡片區域 -->
-                    <div class="mb-6">
+                    <!-- AI 分析卡片區域 - 響應式優化 -->
+                    <div class="mb-4 sm:mb-6">
                         <!-- AI 分析卡片 -->
                         <div class="analysis-card ai-analysis-card">
-                            <div class="card-header">
-                                <h3>🤖 AI 健康分析</h3>
-                                <span class="powered-by">Powered by Gemini</span>
+                            <div class="card-header flex-col sm:flex-row gap-2 sm:gap-0">
+                                <h3 class="text-base sm:text-lg">🤖 AI 健康分析</h3>
+                                <span class="powered-by text-xs">Gemini</span>
                             </div>
                             <div id="analysisContent" class="analysis-content">
-                                <div class="stats-grid mb-4">
-                                    <div class="stat-item">
-                                        <div class="stat-label">數據</div>
-                                        <div class="stat-value" id="aiDataCount">-</div>
+                                <div class="grid grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-4">
+                                    <div class="stat-item p-2 sm:p-3">
+                                        <div class="stat-label text-xs">數據</div>
+                                        <div class="stat-value text-lg sm:text-xl" id="aiDataCount">-</div>
                                     </div>
-                                    <div class="stat-item">
-                                        <div class="stat-label">健康評分</div>
-                                        <div class="stat-value" id="aiHealthScore">-</div>
+                                    <div class="stat-item p-2 sm:p-3">
+                                        <div class="stat-label text-xs">健康評分</div>
+                                        <div class="stat-value text-lg sm:text-xl" id="aiHealthScore">-</div>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3 mb-4">
-                                    <button id="aiAnalysisBtn" class="analysis-btn flex-1">
-                                        <span class="btn-icon">🔍</span>
-                                        <span>開始 AI 分析</span>
+                                <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                                    <button id="aiAnalysisBtn" class="analysis-btn flex-1 py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base">
+                                        <span class="btn-icon text-base sm:text-lg">🔍</span>
+                                        <span class="hidden sm:inline">開始 AI 分析</span>
+                                        <span class="sm:hidden">AI 分析</span>
                                     </button>
                                     <button id="toggleAnalysisBtn" onclick="toggleAnalysisCard()"
-                                        class="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-lg border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50" 
+                                        class="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-lg border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50 flex-shrink-0"
                                         title="收合/展開">
-                                        <span id="toggleIcon">▲</span>
+                                        <span id="toggleIcon" class="text-sm sm:text-base">▲</span>
                                     </button>
                                 </div>
-                                <div id="aiAnalysisResult" class="analysis-result hidden"></div>
+                                <div id="aiAnalysisResult" class="analysis-result hidden text-sm sm:text-base overflow-hidden break-words"></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- 按鈕區域 - 添加新紀錄和返回按鈕並排 -->
+                    
                     <div class="flex gap-4 mt-6 mb-6">
                         <button id="addRecordBtn"
-                            class="primary-button flex-1 py-3 px-6 rounded-xl font-bold text-lg shadow-xl transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
-                            <span class="text-xl">+</span> 添加新紀錄
+                            class="primary-button flex-1 py-2 px-3 rounded-xl font-bold text-lg shadow-xl transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
+                            <span class="text-lg">➕</span>新增紀錄
                         </button>
                         <button id="backToDashboardBtn"
-                            class="back-button px-6 py-3 rounded-xl font-bold text-gray-700 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
-                            <span class="text-lg">🔙</span> 返回主頁
+                            class="back-button flex-1 px-3 py-2 rounded-xl font-bold text-lg text-gray-700 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 min-h-[80px]">
+                            <span class="text-lg">🔙</span>返回主頁
                         </button>
                     </div>
-
-                    <!-- 分頁控制 - 優化版 -->
+                 
+                    <!-- 分頁控制 - 響應式優化版 -->
                     <div class="pagination-container">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-3">
+                        <!-- 記錄數選擇區域 -->
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-2 justify-center sm:justify-start">
                                 <span class="text-sm font-semibold text-gray-700 flex items-center gap-1">
                                     <span class="animated-emoji">📋</span> 顯示
                                 </span>
-                                <select id="recordsPerPage" class="records-select">
+                                <select id="recordsPerPage" class="records-select text-sm">
                                     <option value="5" selected>5</option>
                                     <option value="10">10</option>
                                     <option value="15">15</option>
@@ -1070,17 +1093,26 @@
                                 <span class="text-sm font-semibold text-gray-700">筆記錄</span>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div></div>
-                            <div class="flex items-center gap-3">
-                                <button id="prevPageBtn" class="pagination-btn flex items-center gap-2">
-                                    <span>←</span> 上一頁
+                        
+                        <!-- 分頁按鈕區域 -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3">
+                            <!-- 空白區域，用於平衡佈局 -->
+                            <div class="hidden sm:block"></div>
+                            
+                            <!-- 分頁控制按鈕 -->
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <button id="prevPageBtn" class="pagination-btn flex items-center gap-1 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+                                    <span>←</span>
+                                    <span class="hidden sm:inline">上一頁</span>
+                                    <span class="sm:hidden">上頁</span>
                                 </button>
                                 <span id="pageInfo"
-                                    class="text-sm font-bold text-gray-700 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200">第
+                                    class="text-xs sm:text-sm font-bold text-gray-700 px-2 sm:px-4 py-1 sm:py-2 bg-white rounded-lg shadow-sm border border-gray-200 whitespace-nowrap">第
                                     1 頁，共 1 頁</span>
-                                <button id="nextPageBtn" class="pagination-btn flex items-center gap-2">
-                                    下一頁 <span>→</span>
+                                <button id="nextPageBtn" class="pagination-btn flex items-center gap-1 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+                                    <span class="hidden sm:inline">下一頁</span>
+                                    <span class="sm:hidden">下頁</span>
+                                    <span>→</span>
                                 </button>
                             </div>
                         </div>
@@ -1395,21 +1427,52 @@
             const icon = document.getElementById('toggleIcon');
             const btn = document.getElementById('toggleAnalysisBtn');
             
-            if (resultDiv.classList.contains('hidden')) {
-                // 如果結果區域是隱藏的，則不進行任何操作
+            if (!resultDiv || !icon || !btn) {
+                console.error('收合按鈕元素未找到');
                 return;
             }
             
-            if (resultDiv.style.display === 'none') {
-                // 展開結果
-                resultDiv.style.display = 'block';
-                icon.textContent = '▲';
-                btn.title = '收合結果';
-            } else {
+            // 檢查結果區域是否有內容且不是隱藏狀態
+            if (resultDiv.classList.contains('hidden') || !resultDiv.innerHTML.trim()) {
+                // 如果結果區域是隱藏的或沒有內容，則不進行任何操作
+                return;
+            }
+            
+            // 檢查當前顯示狀態
+            const isCurrentlyVisible = resultDiv.style.display !== 'none' && !resultDiv.classList.contains('hidden');
+            
+            if (isCurrentlyVisible) {
                 // 收合結果
                 resultDiv.style.display = 'none';
                 icon.textContent = '▼';
                 btn.title = '展開結果';
+            } else {
+                // 展開結果
+                resultDiv.style.display = 'block';
+                resultDiv.classList.remove('hidden');
+                icon.textContent = '▲';
+                btn.title = '收合結果';
+            }
+        }
+        
+        // 重置收合按鈕狀態的函數
+        function resetToggleButtonState() {
+            const resultDiv = document.getElementById('aiAnalysisResult');
+            const icon = document.getElementById('toggleIcon');
+            const btn = document.getElementById('toggleAnalysisBtn');
+            
+            if (!resultDiv || !icon || !btn) return;
+            
+            // 如果有分析結果內容
+            if (!resultDiv.classList.contains('hidden') && resultDiv.innerHTML.trim()) {
+                // 確保結果可見，按鈕顯示收合狀態
+                resultDiv.style.display = 'block';
+                icon.textContent = '▲';
+                btn.title = '收合結果';
+            } else {
+                // 沒有結果時重置按鈕
+                icon.textContent = '▲';
+                btn.title = '收合/展開';
             }
         }
 
@@ -1480,10 +1543,10 @@
                 
                 return topInsights.map(insight => {
                     const icon = '💡';
-                    return `<div class="mb-3 p-3 bg-white/60 rounded-lg border border-gray-200">
-                        <div class="flex items-start gap-2">
-                            <span class="text-lg">${icon}</span>
-                            <p class="text-gray-800 font-medium text-sm">${insight.message}</p>
+                    return `<div class="mb-2 p-2 bg-white/60 rounded-lg border border-gray-200">
+                        <div class="flex items-start gap-1">
+                            <span class="text-sm">${icon}</span>
+                            <p class="text-gray-800 font-medium text-xs leading-tight">${insight.message}</p>
                         </div>
                     </div>`;
                 }).join('');
@@ -1498,8 +1561,8 @@
                 const topRecommendations = recommendations.slice(0, 2);
                 
                 return topRecommendations.map(rec => {
-                    return `<div class="mb-3 p-3 bg-white/80 rounded-lg border border-gray-200">
-                        <p class="text-gray-700 text-sm leading-relaxed">${rec.content || rec.title}</p>
+                    return `<div class="mb-2 p-2 bg-white/80 rounded-lg border border-gray-200">
+                        <p class="text-gray-700 text-xs leading-tight">${rec.content || rec.title}</p>
                     </div>`;
                 }).join('');
             }
@@ -1995,8 +2058,14 @@
                 document.getElementById('aiHealthScore').textContent = '-';
             }
             
-            // 重置分析結果
-            document.getElementById('aiAnalysisResult').classList.add('hidden');
+            // 重置分析結果和按鈕狀態
+            const resultDiv = document.getElementById('aiAnalysisResult');
+            resultDiv.classList.add('hidden');
+            resultDiv.innerHTML = '';
+            resultDiv.style.display = '';
+            
+            // 重置收合按鈕狀態
+            resetToggleButtonState();
             
             // 更新按鈕狀態
             const aiBtn = document.getElementById('aiAnalysisBtn');
@@ -2555,13 +2624,9 @@
                         resultDiv.innerHTML = resultHTML;
                         
                         // 更新收合按鈕狀態
-                        const toggleBtn = document.getElementById('toggleAnalysisBtn');
-                        const toggleIcon = document.getElementById('toggleIcon');
-                        if (toggleBtn && toggleIcon) {
-                            resultDiv.style.display = 'block';
-                            toggleIcon.textContent = '▲';
-                            toggleBtn.title = '收合結果';
-                        }
+                        setTimeout(() => {
+                            resetToggleButtonState();
+                        }, 100);
                         
                     } catch (error) {
                         console.error('AI 分析失敗:', error);

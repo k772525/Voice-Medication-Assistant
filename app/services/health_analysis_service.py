@@ -180,43 +180,28 @@ class HealthAnalysisService:
     def _generate_health_insights(self, processed_data: Dict, target_person: str) -> List[Dict]:
         """使用 AI 生成健康洞察"""
         try:
-            # 準備數據摘要
-            data_summary = self._create_data_summary(processed_data)
-            
-            # 準備完整的健康數據統計
+            # 準備詳細的數據摘要和分析
             data_summary = self._create_data_summary(processed_data)
             total_points = data_summary.get('data_points', 0)
             statistics = data_summary.get('statistics', {})
             abnormal_counts = data_summary.get('abnormal_counts', {})
+            trends = data_summary.get('trends', {})
             
-            # 構建詳細的健康數據分析
-            analysis_details = []
+            # 構建智能化的健康數據分析
+            analysis_context = self._build_analysis_context(statistics, abnormal_counts, trends, target_person)
             
-            # 血壓分析
-            if 'blood_pressure' in statistics:
-                bp_stats = statistics['blood_pressure']
-                bp_abnormal = abnormal_counts.get('blood_pressure', 0)
-                analysis_details.append(f"血壓{bp_stats['count']}筆，平均{bp_stats['avg_systolic']:.0f}/{bp_stats['avg_diastolic']:.0f}，{bp_abnormal}次異常")
-            
-            # 其他指標分析
-            for metric in ['weight', 'blood_sugar', 'temperature', 'blood_oxygen']:
-                if metric in statistics:
-                    stats = statistics[metric]
-                    abnormal = abnormal_counts.get(metric, 0)
-                    metric_name = {'weight': '體重', 'blood_sugar': '血糖', 'temperature': '體溫', 'blood_oxygen': '血氧'}[metric]
-                    analysis_details.append(f"{metric_name}{stats['count']}筆，平均{stats['avg']:.1f}，{abnormal}次異常")
-            
-            health_analysis = f"總計{total_points}筆記錄。" + "；".join(analysis_details[:2])
-            
-            prompt = f"""健康數據完整分析：{health_analysis}
+            # 生成更智能的提示詞
+            prompt = f"""分析{target_person}的健康數據：
 
-提供2個基於完整數據的觀察，JSON格式：
+{analysis_context}
+
+提供2個簡潔洞察，JSON格式：
 [
-  {{"type": "trend", "message": "基於所有記錄的趨勢分析"}},
-  {{"type": "normal", "message": "整體健康狀況綜合評估"}}
+  {{"type": "insight", "message": "數據趨勢分析"}},
+  {{"type": "status", "message": "健康狀況評估"}}
 ]
 
-要求：每個觀察不超過30字，基於完整統計數據。"""
+要求：每個洞察20-25字，簡潔專業。"""
 
             response = self.model.generate_content(
                 prompt,
@@ -395,40 +380,30 @@ class HealthAnalysisService:
         """生成個人化建議"""
         try:
             data_summary = self._create_data_summary(processed_data)
-            
-            # 基於完整統計數據提供建議
-            data_summary = self._create_data_summary(processed_data)
             total_points = data_summary.get('data_points', 0)
             abnormal_counts = data_summary.get('abnormal_counts', {})
             statistics = data_summary.get('statistics', {})
+            trends = data_summary.get('trends', {})
             
-            # 計算總異常次數
-            total_abnormal = sum(abnormal_counts.values())
+            # 智能分析風險等級和優先改善項目
+            risk_analysis = self._analyze_health_risks(statistics, abnormal_counts, trends)
             
-            # 構建統計摘要
-            stats_summary = []
-            for metric, stats in statistics.items():
-                abnormal = abnormal_counts.get(metric, 0)
-                if metric == 'blood_pressure':
-                    stats_summary.append(f"血壓{stats['count']}筆({abnormal}次異常)")
-                else:
-                    metric_name = {'weight': '體重', 'blood_sugar': '血糖', 'temperature': '體溫', 'blood_oxygen': '血氧'}[metric]
-                    stats_summary.append(f"{metric_name}{stats['count']}筆({abnormal}次異常)")
+            # 構建個性化建議上下文
+            recommendation_context = self._build_recommendation_context(
+                statistics, abnormal_counts, trends, target_person, risk_analysis
+            )
             
-            summary_text = f"總計{total_points}筆，" + "，".join(stats_summary[:2])
-            
-            # 判斷優先級
-            priority = "high" if total_abnormal > 0 else "medium"
-            
-            prompt = f"""健康管理建議：{summary_text}
+            prompt = f"""為{target_person}提供健康建議：
 
-提供2個基於完整數據的建議，JSON格式：
+{recommendation_context}
+
+提供2個簡潔建議，JSON格式：
 [
-  {{"title": "健康監測", "content": "基於統計數據的監測建議", "priority": "{priority}"}},
-  {{"title": "生活調整", "content": "根據異常模式的改善建議", "priority": "medium"}}
+  {{"title": "重點關注", "content": "針對主要問題的建議", "priority": "{risk_analysis['priority']}"}},
+  {{"title": "日常保健", "content": "日常健康維護建議", "priority": "medium"}}
 ]
 
-要求：每個建議內容不超過25字，基於完整數據分析。"""
+要求：每個建議內容18-22字，簡潔實用。"""
 
             response = self.model.generate_content(
                 prompt,
@@ -663,34 +638,254 @@ class HealthAnalysisService:
         }
         return names.get(metric, metric)
     
+    def _build_analysis_context(self, statistics: Dict, abnormal_counts: Dict, trends: Dict, target_person: str) -> str:
+        """構建智能分析上下文"""
+        context_parts = []
+        
+        # 數據概況
+        total_records = sum(stats.get('count', 0) for stats in statistics.values())
+        total_abnormal = sum(abnormal_counts.values())
+        abnormal_rate = (total_abnormal / total_records * 100) if total_records > 0 else 0
+        
+        context_parts.append(f"數據概況：總計{total_records}筆記錄，異常率{abnormal_rate:.1f}%")
+        
+        # 各指標詳細分析
+        for metric, stats in statistics.items():
+            abnormal = abnormal_counts.get(metric, 0)
+            trend = trends.get(metric, 'stable')
+            
+            if metric == 'blood_pressure':
+                avg_sys = stats.get('avg_systolic', 0)
+                avg_dia = stats.get('avg_diastolic', 0)
+                trend_desc = {'up': '上升', 'down': '下降', 'stable': '穩定'}[trend]
+                context_parts.append(f"血壓：{stats['count']}次測量，平均{avg_sys:.0f}/{avg_dia:.0f}mmHg，{abnormal}次超標，趨勢{trend_desc}")
+            else:
+                metric_names = {'weight': '體重', 'blood_sugar': '血糖', 'temperature': '體溫', 'blood_oxygen': '血氧'}
+                name = metric_names.get(metric, metric)
+                avg_val = stats.get('avg', 0)
+                trend_desc = {'up': '上升', 'down': '下降', 'stable': '穩定'}[trend]
+                context_parts.append(f"{name}：{stats['count']}次測量，平均{avg_val:.1f}，{abnormal}次異常，趨勢{trend_desc}")
+        
+        return "\n".join(context_parts)
+    
+    def _analyze_health_risks(self, statistics: Dict, abnormal_counts: Dict, trends: Dict) -> Dict:
+        """分析健康風險等級"""
+        total_abnormal = sum(abnormal_counts.values())
+        total_records = sum(stats.get('count', 0) for stats in statistics.values())
+        
+        # 計算風險分數
+        risk_score = 0
+        
+        # 異常率權重
+        if total_records > 0:
+            abnormal_rate = total_abnormal / total_records
+            risk_score += abnormal_rate * 40
+        
+        # 趨勢權重
+        negative_trends = sum(1 for trend in trends.values() if trend == 'up')
+        risk_score += negative_trends * 15
+        
+        # 特定指標高風險檢查
+        if 'blood_pressure' in statistics:
+            bp_stats = statistics['blood_pressure']
+            if bp_stats.get('avg_systolic', 0) > 140:
+                risk_score += 25
+        
+        if 'blood_sugar' in statistics:
+            bs_stats = statistics['blood_sugar']
+            if bs_stats.get('avg', 0) > 126:
+                risk_score += 20
+        
+        # 確定優先級
+        if risk_score >= 60:
+            priority = "high"
+            level = "需要重點關注"
+        elif risk_score >= 30:
+            priority = "medium"
+            level = "建議改善"
+        else:
+            priority = "low"
+            level = "維持現狀"
+        
+        return {
+            'score': risk_score,
+            'priority': priority,
+            'level': level,
+            'main_concerns': self._identify_main_concerns(statistics, abnormal_counts, trends)
+        }
+    
+    def _identify_main_concerns(self, statistics: Dict, abnormal_counts: Dict, trends: Dict) -> List[str]:
+        """識別主要關注點"""
+        concerns = []
+        
+        # 檢查各指標
+        for metric, abnormal_count in abnormal_counts.items():
+            if abnormal_count > 0:
+                metric_names = {
+                    'blood_pressure': '血壓偏高',
+                    'blood_sugar': '血糖異常',
+                    'temperature': '體溫異常',
+                    'blood_oxygen': '血氧偏低',
+                    'weight': '體重波動'
+                }
+                concerns.append(metric_names.get(metric, f'{metric}異常'))
+        
+        # 檢查不良趨勢
+        for metric, trend in trends.items():
+            if trend == 'up' and metric in ['blood_pressure', 'blood_sugar', 'weight']:
+                metric_names = {
+                    'blood_pressure': '血壓上升趨勢',
+                    'blood_sugar': '血糖上升趨勢',
+                    'weight': '體重上升趨勢'
+                }
+                concern = metric_names.get(metric, f'{metric}上升')
+                if concern not in [c for c in concerns if metric in c]:
+                    concerns.append(concern)
+        
+        return concerns[:3]  # 最多3個主要關注點
+    
+    def _build_recommendation_context(self, statistics: Dict, abnormal_counts: Dict,
+                                    trends: Dict, target_person: str, risk_analysis: Dict) -> str:
+        """構建建議上下文"""
+        context_parts = []
+        
+        # 風險評估
+        context_parts.append(f"風險評估：{risk_analysis['level']}（風險分數：{risk_analysis['score']:.0f}）")
+        
+        # 主要關注點
+        if risk_analysis['main_concerns']:
+            concerns_text = "、".join(risk_analysis['main_concerns'])
+            context_parts.append(f"主要關注：{concerns_text}")
+        
+        # 數據模式分析
+        patterns = []
+        for metric, trend in trends.items():
+            if trend != 'stable':
+                metric_names = {'weight': '體重', 'blood_pressure': '血壓', 'blood_sugar': '血糖',
+                              'temperature': '體溫', 'blood_oxygen': '血氧'}
+                name = metric_names.get(metric, metric)
+                trend_desc = '上升' if trend == 'up' else '下降'
+                patterns.append(f"{name}{trend_desc}")
+        
+        if patterns:
+            context_parts.append(f"變化模式：{' '.join(patterns)}")
+        
+        # 改善機會
+        improvement_areas = []
+        if abnormal_counts.get('blood_pressure', 0) > 0:
+            improvement_areas.append("血壓控制")
+        if abnormal_counts.get('blood_sugar', 0) > 0:
+            improvement_areas.append("血糖管理")
+        if trends.get('weight') == 'up':
+            improvement_areas.append("體重管理")
+        
+        if improvement_areas:
+            context_parts.append(f"改善重點：{' '.join(improvement_areas)}")
+        
+        return "\n".join(context_parts)
+    
     def _generate_fallback_analysis(self, health_data: List[Dict]) -> Dict[str, Any]:
         """生成回退分析（當 AI 不可用時）"""
+        # 即使沒有AI，也提供基本的智能分析
+        processed_data = self._preprocess_health_data(health_data)
+        data_summary = self._create_data_summary(processed_data)
+        
+        insights = self._generate_enhanced_basic_insights(processed_data, "您")
+        recommendations = self._generate_enhanced_basic_recommendations(processed_data, "您")
+        scores = self._calculate_health_scores(processed_data)
+        
         return {
-            'insights': [
-                {
-                    'type': 'normal',
-                    'message': '您的健康數據已記錄，建議定期監測各項指標'
-                }
-            ],
-            'scores': {
-                'overall': 75,
-                'weight': 75,
-                'bloodPressure': 75,
-                'bloodSugar': 75,
-                'temperature': 75,
-                'bloodOxygen': 75
-            },
-            'recommendations': [
-                {
-                    'title': '持續記錄',
-                    'content': '建議持續記錄健康數據，以便追蹤健康狀況變化。',
-                    'priority': 'medium'
-                }
-            ],
+            'insights': insights,
+            'scores': scores,
+            'recommendations': recommendations,
             'analysis_time': datetime.now().isoformat(),
             'data_points': len(health_data),
-            'note': 'AI 分析服務暫時無法使用，顯示基本分析結果'
+            'note': 'AI 分析服務暫時無法使用，顯示增強基本分析結果'
         }
+    
+    def _generate_enhanced_basic_insights(self, processed_data: Dict, target_person: str) -> List[Dict]:
+        """生成增強的基本洞察"""
+        insights = []
+        data_summary = self._create_data_summary(processed_data)
+        statistics = data_summary.get('statistics', {})
+        abnormal_counts = data_summary.get('abnormal_counts', {})
+        trends = data_summary.get('trends', {})
+        
+        total_abnormal = sum(abnormal_counts.values())
+        total_records = sum(stats.get('count', 0) for stats in statistics.values())
+        
+        # 整體健康狀況洞察
+        if total_records > 0:
+            abnormal_rate = (total_abnormal / total_records) * 100
+            if abnormal_rate > 20:
+                insights.append({
+                    'type': 'warning',
+                    'message': f'{target_person}的健康數據中有{abnormal_rate:.1f}%異常，建議重點關注相關指標'
+                })
+            elif abnormal_rate > 10:
+                insights.append({
+                    'type': 'caution',
+                    'message': f'{target_person}的健康數據整體良好，但有{abnormal_rate:.1f}%需要注意'
+                })
+            else:
+                insights.append({
+                    'type': 'positive',
+                    'message': f'{target_person}的健康數據表現優良，異常率僅{abnormal_rate:.1f}%'
+                })
+        
+        # 趨勢洞察
+        negative_trends = [metric for metric, trend in trends.items() if trend == 'up' and metric in ['blood_pressure', 'blood_sugar', 'weight']]
+        if negative_trends:
+            metric_names = {'blood_pressure': '血壓', 'blood_sugar': '血糖', 'weight': '體重'}
+            trend_names = [metric_names.get(m, m) for m in negative_trends]
+            insights.append({
+                'type': 'trend',
+                'message': f'{target_person}的{" ".join(trend_names)}呈現上升趨勢，建議加強監測'
+            })
+        
+        return insights[:2]  # 最多2個洞察
+    
+    def _generate_enhanced_basic_recommendations(self, processed_data: Dict, target_person: str) -> List[Dict]:
+        """生成增強的基本建議"""
+        recommendations = []
+        data_summary = self._create_data_summary(processed_data)
+        abnormal_counts = data_summary.get('abnormal_counts', {})
+        trends = data_summary.get('trends', {})
+        
+        # 基於異常情況的建議
+        if abnormal_counts.get('blood_pressure', 0) > 0:
+            recommendations.append({
+                'title': '血壓管理',
+                'content': '建議減少鹽分攝取，增加有氧運動，定期監測血壓變化',
+                'priority': 'high'
+            })
+        elif abnormal_counts.get('blood_sugar', 0) > 0:
+            recommendations.append({
+                'title': '血糖控制',
+                'content': '建議控制碳水化合物攝取，餐後適度運動，定期檢測血糖',
+                'priority': 'high'
+            })
+        elif trends.get('weight') == 'up':
+            recommendations.append({
+                'title': '體重管理',
+                'content': '建議調整飲食結構，增加運動量，設定合理的減重目標',
+                'priority': 'medium'
+            })
+        else:
+            recommendations.append({
+                'title': '健康維護',
+                'content': '目前健康狀況良好，建議維持規律作息和均衡飲食',
+                'priority': 'low'
+            })
+        
+        # 通用建議
+        recommendations.append({
+            'title': '持續監測',
+            'content': '建議定期記錄健康數據，建立個人健康檔案，及早發現變化',
+            'priority': 'medium'
+        })
+        
+        return recommendations[:2]  # 最多2個建議
     
     def _generate_error_response(self, error_message: str) -> Dict[str, Any]:
         """生成錯誤回應"""

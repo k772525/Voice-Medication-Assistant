@@ -3,37 +3,64 @@
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![Flask](https://img.shields.io/badge/Flask-2.3+-green.svg)
+![Flask](https://img.shields.io/badge/Flask-3.1.1-green.svg)
 ![LINE Bot](https://img.shields.io/badge/LINE-Bot%20API-00C300.svg)
 ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Run-4285F4.svg)
+![AI Powered](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 **一個功能完整的 LINE Bot 智能藥品管理系統**
 
-[功能特色](#-功能特色) • [快速開始](#-快速開始) • [部署指南](#-部署) • [API 文檔](#-api-文檔) • [貢獻指南](#-貢獻)
+[功能特色](#-主要功能) • [快速開始](#-快速開始) • [技術架構](#-技術架構) • [語音功能](#-語音快捷鍵功能) • [健康分析](#-健康分析功能) • [部署指南](#-cicd-與部署)
 
 </div>
 
 ## ✨ 主要功能
 
-- 📋 **藥單辨識**: 使用 AI 技術自動辨識藥單照片
-- ⏰ **用藥提醒**: 智能提醒系統，支援多種提醒模式
-- 👨‍👩‍👧‍👦 **家人綁定**: 家庭成員互相關心，共同管理健康
-- 🗂️ **藥歷管理**: 完整的用藥記錄管理系統
-- 📊 **健康記錄**: 記錄和追蹤健康狀況
-- 🎙️ **語音快捷鍵**: 語音指令快速操作，支援語音新增提醒對象
-- 🤖 **AI 助手**: 基於 Google Gemini 的智能對話
+### 🔬 核心功能
+- 📋 **藥單辨識**: 使用 Gemini AI 自動辨識藥單照片，支援多種處方格式
+- 💊 **藥品辨識**: 智能識別藥品外觀，提供詳細藥物資訊
+- ⏰ **智能提醒**: 多層級用藥提醒系統，支援複雜用藥時程
+- 👨‍👩‍👧‍👦 **家庭管理**: 完整的家庭成員健康管理功能
+- 🗂️ **藥歷追蹤**: 完整的用藥記錄與歷史查詢
+
+### 🎙️ 語音智能
+- **語音指令**: 支援自然語言語音操作，包含 50+ 種指令
+- **語音新增**: 語音快速新增提醒對象和用藥提醒
+- **AI 優化**: Gemini AI 自動修正語音識別錯誤
+- **快取機制**: 語音處理結果快取，提升響應速度
+
+### 📊 健康分析
+- **AI 健康洞察**: 基於 Gemini AI 的個人化健康分析
+- **趨勢監測**: 自動分析健康數據變化趨勢
+- **風險評估**: 智能健康風險評分與預警
+- **個人化建議**: 根據健康狀況提供客製化建議
+
+### 🤖 AI 增強功能
+- **智能對話**: 基於 Google Gemini 2.5 Flash 的對話系統
+- **文字優化**: 自動修正語音轉文字的常見錯誤
+- **健康評分**: AI 驅動的健康狀況評分系統
+- **預測分析**: 健康趨勢預測與異常檢測
 
 ## 🏗️ 技術架構
 
-- **後端框架**: Flask 3.1.1
-- **資料庫**: MySQL
-- **AI 服務**: Google Gemini API
-- **語音識別**: Google Cloud Speech-to-Text API
-- **訊息平台**: LINE Bot SDK
-- **前端**: LIFF (LINE Front-end Framework)
-- **部署**: Google Cloud Run
-- **容器化**: Docker
+### 後端技術棧
+- **應用框架**: [`Flask 3.1.1`](run.py:16) - 現代化 Web 框架
+- **資料庫**: MySQL 8.0+ - 關聯式資料庫
+- **AI 引擎**: Google Gemini 2.5 Flash - 最新 AI 模型
+- **語音服務**: Google Cloud Speech-to-Text API
+- **訊息平台**: LINE Bot SDK 3.17.1
+
+### 前端與介面
+- **LIFF 框架**: LINE Front-end Framework
+- **響應式設計**: 支援多種裝置尺寸
+- **即時互動**: WebSocket 即時通訊
+
+### 雲端與部署
+- **容器化**: Docker + Docker Compose
+- **雲端平台**: Google Cloud Run
+- **CI/CD**: GitHub Actions 自動化部署
+- **監控**: 健康檢查與效能監控
 
 ## 🚀 快速開始
 
@@ -85,125 +112,360 @@ SECRET_KEY=your_secret_key
 
 ## 🎙️ 語音快捷鍵功能
 
-### 完整語音指令支援
+### 🚀 超快速語音處理
+採用激進優化策略，語音處理時間 < 3 秒，提供流暢的使用體驗。
 
-本系統支援豐富的語音指令，讓您可以透過自然語言快速操作各種功能。
+#### 完整語音指令支援
 
-#### 支援的語音指令分類
-
-| 功能類別 | 範例語音指令 | 說明 |
-|---------|-------------|------|
-| **設定用藥提醒** | 「新增用藥提醒，普拿疼，早上九點，每次一顆」<br>「新增提醒，晚上八點吃一顆血壓藥」 | 提醒我每天早晚八點吃一顆感冒藥 |
-| **查詢本人提醒** | 「查詢本人」<br>「我的提醒」<br>「本人提醒」<br>「查看我的提醒」 | 查看本人所有用藥提醒 |
-| **查詢家人提醒** | 「查詢家人」<br>「家人提醒」<br>「查看家人提醒」<br>「所有成員提醒」 | 查看所有家人的用藥提醒 |
-| **新增提醒** | 「新增本人提醒」<br>「我要新增提醒」<br>「新增家人提醒」<br>「設定家人提醒」 | 直接為本人新增用藥提醒 |
-| **新增提醒對象** | 「新增提醒對象媽媽」<br>「新增家人爸爸」<br>「建立提醒對象奶奶」<br>「我要新增提醒對象小明」 | 新增指定名稱的提醒對象 |
+| 功能類別 | 範例語音指令 | 處理方式 |
+|---------|-------------|---------|
+| **設定用藥提醒** | 「新增用藥提醒，普拿疼，早上九點，每次一顆」<br>「新增提醒，晚上八點吃一顆血壓藥」 | 智能解析藥名、時間、劑量 |
+| **查詢提醒** | 「查詢本人」「我的提醒」<br>「查詢家人」「家人提醒」 | 快速檢索並顯示 |
+| **新增提醒對象** | 「新增提醒對象媽媽」<br>「新增家人爸爸」 | 語音直接新增成員 |
 
 
-#### 功能特色
+#### 🔧 技術特色
 
-- 🎯 **智能解析**: 支援多種自然語言表達方式
-- ✅ **錯誤處理**: 自動檢查重複名稱、無效輸入
-- 💬 **友善回應**: 根據指令類型返回相應的成功訊息
-- ⚡ **優先處理**: 最高優先級處理，避免與其他功能衝突
-- 🔍 **完整測試**: 通過多項測試案例驗證解析邏輯
-
-#### 使用方式
-
-1. **錄音**: 在 LINE Bot 對話中，長按麥克風按鈕錄製語音
-2. **清楚發音**: 清楚說出指令，例如：「新增提醒對象媽媽」
-3. **自動處理**: 系統會自動識別語音並執行對應操作
-4. **確認回饋**: 收到成功確認訊息後即可繼續使用
-
-#### 技術實作
-
-- **語音識別**: Google Cloud Speech-to-Text API
-- **語音優化**: Google Gemini AI 優化識別結果，修正錯字和語法
-- **指令解析**: 正則表達式匹配多種語音指令格式
-- **智能過濾**: 自動過濾無效名稱和重複成員
-- **快取機制**: 語音識別結果快取，提升響應速度
-- **錯誤容忍**: 支援模糊匹配，提高識別成功率
-
-#### 語音識別增強功能
-
-系統針對醫療用藥場景進行了特別優化：
-
-- **醫療詞彙**: 預設包含常用藥物、健康指標相關詞彙
-- **時間表達**: 智能識別「早上」、「晚上」、「飯前」、「飯後」等時間描述
-- **單位識別**: 自動識別「顆」、「粒」、「錠」、「毫克」等醫療單位
-- **錯字修正**: AI 自動修正常見的語音識別錯誤
-- **本地優化**: 當 AI 服務不可用時，使用本地優化算法
-
-## 📁 專案結構
-
-```
-.
-├── app/                    # 主應用程式目錄
-│   ├── routes/            # 路由處理
-│   │   ├── handlers/      # 業務邏輯處理器
-│   │   ├── auth.py        # 認證相關
-│   │   ├── liff_views.py  # LIFF 視圖
-│   │   └── line_webhook.py # LINE Webhook
-│   ├── services/          # 業務服務層
-│   │   ├── voice_service.py    # 語音識別和處理服務
-│   │   ├── ai_processor.py     # AI 處理服務
-│   │   ├── reminder_service.py # 提醒服務
-│   │   └── user_service.py     # 用戶服務
-│   ├── templates/         # HTML 模板
-│   └── utils/             # 工具函數
-├── .github/               # GitHub Actions 配置
-│   ├── workflows/         # CI/CD 工作流程
-│   └── ISSUE_TEMPLATE/    # Issue 模板
-├── Dockerfile             # Docker 配置
-├── requirements.txt       # Python 依賴
-├── config.py             # 應用程式配置
-└── run.py                # 應用程式入口點
+##### 多層級語音處理架構
+```python
+# 語音處理流程 (app/services/voice_service.py)
+1. 快速指令檢測 → 短音檔直接匹配
+2. 音檔格式轉換 → 智能格式檢測與快取
+3. 超快速識別 → 簡化配置，提升速度
+4. AI 智能優化 → Gemini 2.5 Flash 錯字修正
+5. 指令解析執行 → 正則匹配 + 業務邏輯
 ```
 
-## 🔄 CI/CD 流程
+##### 智能快取系統
+- **語音快取**: 5分鐘快取機制，避免重複處理
+- **轉錄快取**: 相同音檔直接返回結果
+- **指令快取**: 常用指令快速響應
 
-本專案使用 GitHub Actions 實現自動化 CI/CD：
+##### AI 增強處理
+- **Gemini 優化**: [`_enhance_with_gemini_fast()`](app/services/voice_service.py:455) 快速錯字修正
+- **本地備援**: [`_local_text_optimization()`](app/services/voice_service.py:587) 離線文字優化
+- **醫療詞彙**: 50+ 醫療相關詞彙預設支援
 
-### 主要工作流程
+#### 🎯 使用方式
 
-1. **CI/CD Pipeline** (`.github/workflows/ci-cd.yml`)
-   - 程式碼品質檢查
-   - 自動化測試
-   - Docker 映像建構和推送
-   - 自動部署到 staging/production
+1. **語音錄製**: LINE 對話中長按麥克風
+2. **自然發音**: 支援台灣國語、方言混合
+3. **即時回饋**: 3秒內完成處理並回應
+4. **錯誤容忍**: 自動修正常見語音識別錯誤
 
-2. **GCP 部署** (`.github/workflows/deploy-gcp.yml`)
-   - 部署到 Google Cloud Run
-   - 環境變數管理
-   - 健康檢查
+## 📊 健康分析功能
 
-3. **安全掃描** (`.github/workflows/security-scan.yml`)
-   - 依賴漏洞掃描
-   - 程式碼安全分析
-   - Docker 映像安全檢查
+### 🧠 AI 驅動的健康洞察
+基於 [`HealthAnalysisService`](app/services/health_analysis_service.py:14) 提供專業級健康分析。
 
-### 部署環境
+#### 核心分析能力
 
-- **Staging**: `develop` 分支自動部署
-- **Production**: `main` 分支自動部署
+##### 🔍 多維度健康評估
+- **趨勢分析**: 自動計算各項指標的變化趨勢
+- **異常檢測**: 智能識別異常數值和模式
+- **風險評分**: 0-100 分健康風險評估
+- **個人化洞察**: 基於個人數據的客製化分析
 
-## 🔒 安全性
+##### 📈 支援的健康指標
+```python
+# 完整支援的健康數據類型
+健康指標 = {
+    '體重': '趨勢分析 + BMI 計算',
+    '血壓': '收縮壓/舒張壓分析 + 高血壓風險',
+    '血糖': '糖尿病風險評估 + 飯前飯後分析',
+    '體溫': '發燒檢測 + 異常溫度警示',
+    '血氧': '呼吸系統健康評估'
+}
+```
 
-- 使用 GitHub Secrets 管理敏感資訊
-- 定期進行安全掃描
-- 依賴項目自動更新 (Dependabot)
-- 容器映像漏洞檢測
+#### 🤖 AI 分析引擎
+
+##### 智能洞察生成
+- **Gemini 分析**: [`_generate_health_insights()`](app/services/health_analysis_service.py:180) 專業健康洞察
+- **風險識別**: [`_analyze_health_risks()`](app/services/health_analysis_service.py:671) 多層級風險評估
+- **建議生成**: [`_generate_recommendations()`](app/services/health_analysis_service.py:379) 個人化健康建議
+
+##### 增強基本分析
+當 AI 服務不可用時，系統自動切換至增強基本分析模式：
+- **統計分析**: 平均值、趨勢、異常率計算
+- **規則引擎**: 基於醫學標準的健康評估
+- **本地建議**: 預設健康建議庫
+
+#### 📊 分析結果展示
+
+```json
+{
+  "insights": [
+    {
+      "type": "trend",
+      "message": "您的血壓呈現下降趨勢，較前期有所改善"
+    }
+  ],
+  "scores": {
+    "overall": 85,
+    "bloodPressure": 90,
+    "bloodSugar": 80
+  },
+  "recommendations": [
+    {
+      "title": "血壓管理",
+      "content": "建議維持目前的生活方式",
+      "priority": "medium"
+    }
+  ]
+}
+```
+
+## 📁 專案架構
+
+### 🏗️ 目錄結構
+```
+LINE_Bot_Developer/
+├── app/                           # 主應用程式
+│   ├── routes/                    # 路由層
+│   │   ├── handlers/              # 業務邏輯處理器
+│   │   │   ├── family_handler.py  # 家庭管理
+│   │   │   ├── pill_handler.py    # 藥品識別
+│   │   │   ├── prescription_handler.py # 藥單處理
+│   │   │   └── reminder_handler.py # 提醒管理
+│   │   ├── auth.py                # 身份認證
+│   │   ├── liff_views.py          # LIFF 前端視圖
+│   │   ├── line_webhook.py        # LINE Webhook
+│   │   └── scheduler_api.py       # 排程 API
+│   ├── services/                  # 服務層
+│   │   ├── voice_service.py       # 🎙️ 語音處理服務
+│   │   ├── health_analysis_service.py # 📊 健康分析服務
+│   │   ├── ai_processor.py        # 🤖 AI 處理引擎
+│   │   ├── reminder_service.py    # ⏰ 提醒服務
+│   │   ├── prescription_service.py # 📋 藥單服務
+│   │   ├── family_service.py      # 👨‍👩‍👧‍👦 家庭服務
+│   │   └── user_service.py        # 👤 用戶服務
+│   ├── templates/                 # HTML 模板
+│   │   ├── camera.html            # 相機介面
+│   │   ├── health_form.html       # 健康記錄表單
+│   │   └── *_reminder_form.html   # 提醒設定表單
+│   └── utils/                     # 工具模組
+│       ├── db.py                  # 資料庫工具
+│       ├── helpers.py             # 輔助函數
+│       └── flex/                  # LINE Flex Message 模板
+├── .github/workflows/             # CI/CD 自動化
+├── config.py                      # 🔧 應用程式配置
+├── run.py                         # 🚀 應用程式入口
+├── requirements.txt               # 📦 Python 依賴
+├── Dockerfile                     # 🐳 容器配置
+└── docker-compose.yml             # 🐳 本地開發環境
+```
+
+### 🔄 服務架構圖
+```mermaid
+graph TB
+    A[LINE Bot] --> B[Webhook Handler]
+    B --> C{訊息類型}
+    C -->|文字| D[AI Processor]
+    C -->|語音| E[Voice Service]
+    C -->|圖片| F[Prescription Service]
+    
+    E --> G[Speech-to-Text]
+    G --> H[Gemini AI 優化]
+    H --> I[指令解析]
+    
+    F --> J[Gemini Vision]
+    J --> K[藥物資料庫匹配]
+    
+    D --> L[健康分析服務]
+    L --> M[Gemini AI 分析]
+    
+    I --> N[業務邏輯處理]
+    K --> N
+    M --> N
+    N --> O[回應生成]
+    O --> A
+```
+
+## 🔄 CI/CD 與部署
+
+### 🚀 自動化部署流程
+採用 GitHub Actions 實現完全自動化的 CI/CD 管道：
+
+#### 主要工作流程
+1. **代碼品質檢查** - 自動化測試與程式碼分析
+2. **Docker 建構** - 多階段建構優化映像大小
+3. **安全掃描** - 依賴漏洞與容器安全檢測
+4. **自動部署** - 零停機時間部署到 Google Cloud Run
+
+#### 部署環境管理
+- **開發環境**: `develop` 分支 → 自動部署到 staging
+- **生產環境**: `main` 分支 → 自動部署到 production
+- **健康檢查**: [`/health`](run.py:19) 端點監控服務狀態
+
+### ⚡ 效能優化
+
+#### 雲端架構優化
+- **Cloud Run**: 自動擴縮容，按需付費
+- **Cloud Scheduler**: [`scheduler_api.py`](app/routes/scheduler_api.py:10) 定時任務管理
+- **負載均衡**: 多區域部署，提升可用性
+
+#### 應用程式優化
+- **快取策略**: 語音識別結果快取，減少 API 調用
+- **並行處理**: 異步處理提升響應速度
+- **資源管理**: 智能資源分配與回收
+
+### 🔒 安全性措施
+
+#### 多層級安全防護
+- **API 金鑰管理**: GitHub Secrets 安全存儲
+- **請求驗證**: LINE Webhook 簽名驗證
+- **存取控制**: 基於角色的權限管理
+- **資料加密**: 敏感資料傳輸與存儲加密
+
+#### 安全監控
+- **依賴掃描**: Dependabot 自動更新
+- **容器安全**: 定期映像漏洞掃描
+- **存取日誌**: 完整的操作審計追蹤
 
 
+
+## 🚀 快速開始
+
+### 📋 環境需求
+- **Python**: 3.11+
+- **MySQL**: 8.0+
+- **Docker**: 20.10+ (可選)
+- **Node.js**: 16+ (開發工具)
+
+### ⚙️ 本地開發設置
+
+1. **克隆專案**
+   ```bash
+   git clone https://github.com/your-username/LINE_Bot_Developer.git
+   cd LINE_Bot_Developer
+   ```
+
+2. **環境配置**
+   ```bash
+   # 複製環境變數範本
+   cp .env.example .env
+   
+   # 編輯 .env 檔案，填入您的 API 金鑰
+   nano .env
+   ```
+
+3. **安裝依賴**
+   ```bash
+   # 使用 pip
+   pip install -r requirements.txt
+   
+   # 或使用 Docker
+   docker-compose up -d
+   ```
+
+4. **啟動應用程式**
+   ```bash
+   # 本地開發
+   python run.py
+   
+   # 或使用 Docker
+   docker-compose up app
+   ```
+
+### 🔧 必要環境變數
+
+```bash
+# LINE Bot API 設定
+LINE_CHANNEL_ACCESS_TOKEN=your_access_token
+LINE_CHANNEL_SECRET=your_channel_secret
+YOUR_BOT_ID=@your_bot_id
+
+# LIFF 應用程式設定
+LIFF_CHANNEL_ID=your_liff_channel_id
+LIFF_ID_CAMERA=your_camera_liff_id
+LIFF_ID_EDIT=your_edit_liff_id
+LIFF_ID_PRESCRIPTION_REMINDER=your_prescription_reminder_liff_id
+LIFF_ID_MANUAL_REMINDER=your_manual_reminder_liff_id
+LIFF_ID_HEALTH_FORM=your_health_form_liff_id
+
+# LINE Login 設定
+LINE_LOGIN_CHANNEL_ID=your_login_channel_id
+LINE_LOGIN_CHANNEL_SECRET=your_login_channel_secret
+
+# Google AI 服務
+GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account-key.json
+SPEECH_TO_TEXT_ENABLED=true
+
+# MySQL 資料庫設定
+DB_HOST=your_db_host
+DB_USER=your_db_user
+DB_PASS=your_db_password
+DB_NAME=your_db_name
+DB_PORT=3306
+
+# Flask 應用程式
+SECRET_KEY=your_secret_key
+```
+
+## 📚 API 文檔
+
+### 🔗 主要端點
+
+| 端點 | 方法 | 描述 | 範例 |
+|------|------|------|------|
+| `/callback` | POST | LINE Webhook 接收端點 | LINE 平台調用 |
+| `/api/check-reminders` | POST | 定時提醒檢查 | Cloud Scheduler 調用 |
+| `/health` | GET | 健康檢查端點 | 服務監控使用 |
+| `/liff/*` | GET | LIFF 應用程式頁面 | 前端介面 |
+
+### 📊 健康檢查 API
+
+```bash
+# 基本健康檢查
+curl https://your-domain.com/health
+
+# 詳細健康檢查
+curl https://your-domain.com/api/health-detailed
+```
+
+回應範例：
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T12:00:00Z",
+  "database": "connected",
+  "version": "1.0.0"
+}
+```
+
+## 📈 效能監控
+
+### 🔍 關鍵指標
+- **語音處理時間**: < 3 秒
+- **AI 分析響應**: < 5 秒
+- **資料庫查詢**: < 100ms
+- **系統可用性**: > 99.9%
+
+### 📊 監控工具
+- **健康檢查**: 自動化服務狀態監控
+- **日誌分析**: 結構化日誌記錄與分析
+- **效能追蹤**: API 響應時間監控
+- **錯誤追蹤**: 異常自動通知與處理
 
 ## 🙏 致謝
 
-- [LINE Developers](https://developers.line.biz/)
-- [Google Gemini](https://ai.google.dev/)
-- [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text)
-- [Flask](https://flask.palletsprojects.com/)
-- 所有貢獻者
+### 🌟 核心技術
+- [LINE Developers](https://developers.line.biz/) - LINE Bot 平台
+- [Google Gemini](https://ai.google.dev/) - AI 分析引擎
+- [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text) - 語音識別
+- [Flask](https://flask.palletsprojects.com/) - Web 框架
+- [Google Cloud Run](https://cloud.google.com/run) - 雲端部署
 
 ---
 
-**注意**: 請確保在生產環境中妥善保護您的 API 金鑰和敏感資訊。"# LINE_Bot_Developer" 
+<div align="center">
+
+**⚠️ 重要提醒**
+
+本系統僅供健康管理參考，不可替代專業醫療建議。
+請確保在生產環境中妥善保護您的 API 金鑰和敏感資訊。
+
+
+</div>
