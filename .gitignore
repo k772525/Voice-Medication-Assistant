@@ -180,7 +180,7 @@ uploads/
 .claude/
 GITHUB_PUSH_GUIDE.md
 .md
-
+GCP 部署.md
 # Google Cloud 憑證
 *.json
 !requirements.txt

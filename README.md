@@ -449,8 +449,6 @@ curl https://your-domain.com/api/health-detailed
 - **效能追蹤**: API 響應時間監控
 - **錯誤追蹤**: 異常自動通知與處理
 
-## 🙏 致謝
-
 ### 🌟 核心技術
 - [LINE Developers](https://developers.line.biz/) - LINE Bot 平台
 - [Google Gemini](https://ai.google.dev/) - AI 分析引擎
