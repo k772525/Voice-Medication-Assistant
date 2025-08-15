@@ -13,8 +13,18 @@ GCS_PATH_PREFIX = 'predictions/kevin_model/'
 GOOGLE_APPLICATION_CREDENTIALS = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
 if GOOGLE_APPLICATION_CREDENTIALS:
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_APPLICATION_CREDENTIALS
-# 這是 kevin_api.py 中定義的 API 端點
-KEVIN_API_URL = "https://kevin-712800774423.us-central1.run.app/detect"
+
+# Kevin API 端點 - 從 config 讀取
+try:
+    from config import Config
+    KEVIN_API_URL = Config.KEVIN_API_URL
+except ImportError:
+    # 如果無法導入 config，直接從環境變數讀取
+    KEVIN_API_URL = os.environ.get('KEVIN_API_URL')
+
+# 檢查 KEVIN_API_URL 是否已設定
+if not KEVIN_API_URL:
+    print("⚠️  警告: KEVIN_API_URL 環境變數未設定，Kevin 模型將無法使用")
 
 def _upload_to_gcs(image_bytes, suffix='annotated.jpg'):
     """

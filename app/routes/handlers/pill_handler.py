@@ -31,17 +31,33 @@ except Exception as e:
 # 全局变量定义
 user_states = {}
 
-# 可用模型配置
-AVAILABLE_MODELS = {
-    "1": {
-        "name": "yolov12",
-        "url": "https://yolo120724-712800774423.us-central1.run.app"
-    },
-    "2": {
-        "name": "yolov11", 
-        "url": "https://yolo110724-712800774423.us-central1.run.app"
-    }
-}
+# 可用模型配置 - 直接從環境變數讀取網址
+def get_available_models():
+    """從環境變數獲取可用模型"""
+    import os
+    models = {}
+    
+    # 只有當 URL 存在時才加入模型
+    yolo_v12_url = os.environ.get('YOLO_V12_URL')
+    if yolo_v12_url:
+        models["1"] = {
+            "name": "yolov12",
+            "url": yolo_v12_url
+        }
+    
+    yolo_v11_url = os.environ.get('YOLO_V11_URL')
+    if yolo_v11_url:
+        models["2"] = {
+            "name": "yolov11", 
+            "url": yolo_v11_url
+        }
+    
+    if not models:
+        print("⚠️  警告: 沒有可用的 YOLO 模型 URL，請設定 YOLO_V12_URL 或 YOLO_V11_URL 環境變數")
+    
+    return models
+
+AVAILABLE_MODELS = get_available_models()
 
 class PillDetectionClient:
     """药丸检测 API 客户端 - 简化版"""

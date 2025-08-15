@@ -41,13 +41,15 @@ class Config:
     SPEECH_TO_TEXT_ENABLED = os.environ.get('SPEECH_TO_TEXT_ENABLED', 'true').lower() == 'true'
     SPEECH_LANGUAGE_CODE = os.environ.get('SPEECH_LANGUAGE_CODE', 'zh-TW')
     
+        
+    # --- YOLO 模型 API 設定 ---
+    YOLO_MODEL_URLS = {
+        "yolov12": os.environ.get('YOLO_V12_URL'),
+        "yolov11": os.environ.get('YOLO_V11_URL')
+    }
     
-    # --- 药丸辨识 API 設定 ---
-    PILL_API_URLS = [
-        "https://line-bot-712800774423.us-central1.run.app",
-        "https://line-bot2-712800774423.us-central1.run.app", 
-        "https://detect-api-self.wenalyzer.xyz/detect"
-    ]
+    # --- Kevin 模型 API 設定 ---
+    KEVIN_API_URL = os.environ.get('KEVIN_API_URL')
     
     # --- MySQL 資料庫設定 ---
     DB_HOST = os.environ.get('DB_HOST')
