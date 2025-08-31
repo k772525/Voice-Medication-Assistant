@@ -100,22 +100,35 @@ jobs:
             environment=production
             deployed-by=github-actions
             commit-sha=${{ github.sha }}
-          # 環境變數配置 - 只包含應用程式必需的環境變數
+          # 環境變數配置 - 包含應用程式所需的所有環境變數
           env_vars: |
             ENV=production
             VERSION=${{ github.sha }}
             LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
             LINE_CHANNEL_SECRET=${{ secrets.LINE_CHANNEL_SECRET }}
             YOUR_BOT_ID=${{ secrets.YOUR_BOT_ID }}
+            LINE_LOGIN_CHANNEL_ID=${{ secrets.LINE_LOGIN_CHANNEL_ID }}
+            LINE_LOGIN_CHANNEL_SECRET=${{ secrets.LINE_LOGIN_CHANNEL_SECRET }}
             SECRET_KEY=${{ secrets.SECRET_KEY }}
             LIFF_CHANNEL_ID=${{ secrets.LIFF_CHANNEL_ID }}
             LIFF_ID_CAMERA=${{ secrets.LIFF_ID_CAMERA }}
+            LIFF_ID_EDIT=${{ secrets.LIFF_ID_EDIT }}
+            LIFF_ID_PRESCRIPTION_REMINDER=${{ secrets.LIFF_ID_PRESCRIPTION_REMINDER }}
+            LIFF_ID_MANUAL_REMINDER=${{ secrets.LIFF_ID_MANUAL_REMINDER }}
+            LIFF_ID_HEALTH_FORM=${{ secrets.LIFF_ID_HEALTH_FORM }}
             GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
             GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}
+            SPEECH_TO_TEXT_ENABLED=${{ secrets.SPEECH_TO_TEXT_ENABLED }}
+            SPEECH_LANGUAGE_CODE=${{ secrets.SPEECH_LANGUAGE_CODE }}
+            YOLO_V12_URL=${{ secrets.YOLO_V12_URL }}
+            YOLO_V11_URL=${{ secrets.YOLO_V11_URL }}
+            KEVIN_API_URL=${{ secrets.KEVIN_API_URL }}
             DB_HOST=${{ secrets.DB_HOST }}
             DB_USER=${{ secrets.DB_USER }}
             DB_PASS=${{ secrets.DB_PASS }}
             DB_NAME=${{ secrets.DB_NAME }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            REMINDER_SECRET_TOKEN=${{ secrets.REMINDER_SECRET_TOKEN }}
           # Cloud Run 服務配置
           timeout: 300            # 請求逾時時間（秒）
           # 允許未經身份驗證的請求（根據您的安全需求調整）
