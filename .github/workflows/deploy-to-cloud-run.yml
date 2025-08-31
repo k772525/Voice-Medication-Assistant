@@ -100,74 +100,26 @@ jobs:
             environment=production
             deployed-by=github-actions
             commit-sha=${{ github.sha }}
-          # 環境變數配置 - 根據重新設計的 env.yaml 文件
+          # 環境變數配置 - 只包含應用程式必需的環境變數
           env_vars: |
             ENV=production
             VERSION=${{ github.sha }}
             LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
             LINE_CHANNEL_SECRET=${{ secrets.LINE_CHANNEL_SECRET }}
             YOUR_BOT_ID=${{ secrets.YOUR_BOT_ID }}
-            LINE_LOGIN_CHANNEL_ID=${{ secrets.LINE_LOGIN_CHANNEL_ID }}
-            LINE_LOGIN_CHANNEL_SECRET=${{ secrets.LINE_LOGIN_CHANNEL_SECRET }}
             SECRET_KEY=${{ secrets.SECRET_KEY }}
-            FLASK_ENV=${{ secrets.FLASK_ENV }}
-            FLASK_DEBUG=${{ secrets.FLASK_DEBUG }}
             LIFF_CHANNEL_ID=${{ secrets.LIFF_CHANNEL_ID }}
             LIFF_ID_CAMERA=${{ secrets.LIFF_ID_CAMERA }}
-            LIFF_ID_EDIT=${{ secrets.LIFF_ID_EDIT }}
-            LIFF_ID_PRESCRIPTION_REMINDER=${{ secrets.LIFF_ID_PRESCRIPTION_REMINDER }}
-            LIFF_ID_MANUAL_REMINDER=${{ secrets.LIFF_ID_MANUAL_REMINDER }}
-            LIFF_ID_HEALTH_FORM=${{ secrets.LIFF_ID_HEALTH_FORM }}
             GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
-            GEMINI_MODEL=${{ secrets.GEMINI_MODEL }}
             GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}
-            GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-            SPEECH_TO_TEXT_ENABLED=${{ secrets.SPEECH_TO_TEXT_ENABLED }}
-            SPEECH_LANGUAGE_CODE=${{ secrets.SPEECH_LANGUAGE_CODE }}
-            SPEECH_ENCODING=${{ secrets.SPEECH_ENCODING }}
             DB_HOST=${{ secrets.DB_HOST }}
             DB_USER=${{ secrets.DB_USER }}
             DB_PASS=${{ secrets.DB_PASS }}
             DB_NAME=${{ secrets.DB_NAME }}
-            DB_PORT=${{ secrets.DB_PORT }}
-            DB_CHARSET=${{ secrets.DB_CHARSET }}
-            DB_POOL_SIZE=${{ secrets.DB_POOL_SIZE }}
-            DB_POOL_TIMEOUT=${{ secrets.DB_POOL_TIMEOUT }}
-            REMINDER_SECRET_TOKEN=${{ secrets.REMINDER_SECRET_TOKEN }}
-            API_RATE_LIMIT=${{ secrets.API_RATE_LIMIT }}
-            SESSION_TIMEOUT=${{ secrets.SESSION_TIMEOUT }}
-            VOICE_RECOGNITION_ENABLED=${{ secrets.VOICE_RECOGNITION_ENABLED }}
-            AI_ANALYSIS_ENABLED=${{ secrets.AI_ANALYSIS_ENABLED }}
-            FAMILY_MANAGEMENT_ENABLED=${{ secrets.FAMILY_MANAGEMENT_ENABLED }}
-            HEALTH_MONITORING_ENABLED=${{ secrets.HEALTH_MONITORING_ENABLED }}
-            REMINDER_CHECK_INTERVAL=${{ secrets.REMINDER_CHECK_INTERVAL }}
-            MAX_REMINDERS_PER_USER=${{ secrets.MAX_REMINDERS_PER_USER }}
-            REMINDER_ADVANCE_TIME=${{ secrets.REMINDER_ADVANCE_TIME }}
-            AI_RESPONSE_TIMEOUT=${{ secrets.AI_RESPONSE_TIMEOUT }}
-            MAX_AI_REQUESTS_PER_HOUR=${{ secrets.MAX_AI_REQUESTS_PER_HOUR }}
-            LOG_LEVEL=${{ secrets.LOG_LEVEL }}
-            HEALTH_CHECK_ENABLED=${{ secrets.HEALTH_CHECK_ENABLED }}
-            METRICS_ENABLED=${{ secrets.METRICS_ENABLED }}
-            CACHE_TYPE=${{ secrets.CACHE_TYPE }}
-            CACHE_DEFAULT_TIMEOUT=${{ secrets.CACHE_DEFAULT_TIMEOUT }}
-            APP_ENV=${{ secrets.APP_ENV }}
-            APP_VERSION=${{ secrets.APP_VERSION }}
-            APP_NAME=${{ secrets.APP_NAME }}
-            PORT=${{ secrets.PORT }}
-            HOST=${{ secrets.HOST }}
-            WORKERS=${{ secrets.WORKERS }}
-            WORKER_TIMEOUT=${{ secrets.WORKER_TIMEOUT }}
-            DEBUG_MODE=${{ secrets.DEBUG_MODE }}
-            TESTING=${{ secrets.TESTING }}
           # Cloud Run 服務配置
-          cpu: 1              # CPU 配置 (1 vCPU)
-          memory: 1Gi           # 記憶體配置
-          concurrency: 80         # 並發請求數
           timeout: 300            # 請求逾時時間（秒）
-          max_instances: 100      # 最大實例數
-          min_instances: 0        # 最小實例數（0 表示可以縮放到零）
           # 允許未經身份驗證的請求（根據您的安全需求調整）
-          flags: --allow-unauthenticated
+          flags: --allow-unauthenticated --memory=1Gi --cpu=1 --max-instances=100 --min-instances=0 --concurrency=80
 
       # 步驟 8: 輸出部署結果
       # 顯示部署完成後的服務 URL
