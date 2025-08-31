@@ -134,14 +134,20 @@ jobs:
           # 允許未經身份驗證的請求（根據您的安全需求調整）
           flags: --allow-unauthenticated --memory=1Gi --cpu=1 --max-instances=100 --min-instances=0 --concurrency=80
 
-      # 步驟 9: 設置 Cloud Scheduler
-      # 自動設置用藥提醒的排程任務
+      # 步驟 9: 設置 Cloud Scheduler (可選)
+      # 自動設置用藥提醒的排程任務 - 需要手動啟用 API
       - name: Setup Cloud Scheduler
+        continue-on-error: true
         run: |
           echo "設置 Cloud Scheduler..."
           
-          # 啟用 Cloud Scheduler API
-          gcloud services enable cloudscheduler.googleapis.com
+          # 檢查 Cloud Scheduler API 是否已啟用
+          if ! gcloud services list --enabled --filter="name:cloudscheduler.googleapis.com" --format="value(name)" | grep -q cloudscheduler; then
+            echo "⚠️ Cloud Scheduler API 未啟用，請手動執行："
+            echo "gcloud services enable cloudscheduler.googleapis.com"
+            echo "跳過 Cloud Scheduler 設置..."
+            exit 0
+          fi
           
           # 檢查是否需要創建 App Engine 應用（Cloud Scheduler 需要）
           if ! gcloud app describe &>/dev/null; then
