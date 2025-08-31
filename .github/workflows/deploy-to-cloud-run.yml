@@ -134,7 +134,47 @@ jobs:
           # 允許未經身份驗證的請求（根據您的安全需求調整）
           flags: --allow-unauthenticated --memory=1Gi --cpu=1 --max-instances=100 --min-instances=0 --concurrency=80
 
-      # 步驟 8: 輸出部署結果
+      # 步驟 9: 設置 Cloud Scheduler
+      # 自動設置用藥提醒的排程任務
+      - name: Setup Cloud Scheduler
+        run: |
+          echo "設置 Cloud Scheduler..."
+          
+          # 啟用 Cloud Scheduler API
+          gcloud services enable cloudscheduler.googleapis.com
+          
+          # 檢查是否需要創建 App Engine 應用（Cloud Scheduler 需要）
+          if ! gcloud app describe &>/dev/null; then
+            echo "創建 App Engine 應用..."
+            gcloud app create --region=us-central1
+          else
+            echo "App Engine 應用已存在"
+          fi
+          
+          # 獲取部署的服務 URL
+          SERVICE_URL="${{ steps.deploy.outputs.url }}"
+          
+          # 刪除舊的排程任務（如果存在）
+          if gcloud scheduler jobs describe reminder-check-job --location=us-central1 &>/dev/null; then
+            echo "刪除舊的排程任務..."
+            gcloud scheduler jobs delete reminder-check-job --location=us-central1 --quiet
+          fi
+          
+          # 創建新的排程任務
+          echo "創建用藥提醒排程任務..."
+          gcloud scheduler jobs create http reminder-check-job \
+            --location=us-central1 \
+            --schedule="* * * * *" \
+            --uri="${SERVICE_URL}/api/check-reminders" \
+            --http-method=POST \
+            --headers="Content-Type=application/json,Authorization=Bearer ${{ secrets.REMINDER_SECRET_TOKEN }}" \
+            --description="每分鐘檢查並發送用藥提醒" \
+            --time-zone="Asia/Taipei"
+          
+          echo "✅ Cloud Scheduler 設置完成！"
+          echo "排程任務 URL: ${SERVICE_URL}/api/check-reminders"
+
+      # 步驟 10: 輸出部署結果
       # 顯示部署完成後的服務 URL
       - name: Show deployment result
         run: |
@@ -143,7 +183,7 @@ jobs:
           echo "部署的映像檔: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest"
           echo "Commit SHA: ${{ github.sha }}"
 
-      # 步驟 9: 健康檢查（可選）
+      # 步驟 11: 健康檢查（可選）
       # 驗證部署的服務是否正常運行
       - name: Health check
         run: |
