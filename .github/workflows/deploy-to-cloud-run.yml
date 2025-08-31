@@ -1,0 +1,189 @@
+# GitHub Actions Workflow for deploying to Google Cloud Run
+# 此工作流程使用 Workload Identity Federation 進行安全身份驗證
+name: Deploy to Cloud Run
+
+# 觸發條件：當推送到 main 分支時自動執行部署
+on:
+  push:
+    branches:
+      - main
+  # 可選：支援手動觸發部署
+  workflow_dispatch:
+
+# 設置環境變數，便於統一管理配置資訊
+env:
+  PROJECT_ID: gcp1-462701                                  # GCP 專案 ID
+  SERVICE_NAME: linebot0831                                # Cloud Run 服務名稱
+  REGION: us-central1                                      # 部署區域
+  REPOSITORY: linebot-repo                                 # Artifact Registry 倉庫名稱
+  IMAGE_NAME: linebot0831                                  # Docker 映像檔名稱
+
+jobs:
+  deploy:
+    # 使用最新的 Ubuntu 運行環境
+    runs-on: ubuntu-latest
+    
+    # 配置權限，確保 GITHUB_TOKEN 具有必要的權限
+    permissions:
+      contents: read
+      id-token: write  # 這個權限對於 Workload Identity Federation 是必需的
+
+    steps:
+      # 步驟 1: 檢出程式碼庫
+      # 獲取倉庫的原始碼到工作流運行環境中
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步驟 2: 配置 Google Cloud 身份驗證
+      # 使用服務帳號金鑰進行身份驗證
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          # 服務帳號 JSON 金鑰
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          # 匯出 Google Cloud SDK 憑據以供後續步驟使用
+          export_environment_variables: true
+
+      # 步驟 3: 設置 Google Cloud SDK
+      # 安裝並配置 gcloud CLI 工具
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: 'latest'
+
+      # 步驟 4: 驗證身份驗證狀態
+      # 確認 gcloud 已正確配置並可以存取 GCP 專案
+      - name: Verify authentication
+        run: |
+          echo "驗證 GCP 身份驗證狀態..."
+          gcloud auth list
+          gcloud config list project
+
+      # 步驟 5: 配置 Docker 認證
+      # 配置 Docker 以使用 gcloud 作為 Artifact Registry 的憑據助手
+      - name: Configure Docker authentication
+        run: |
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      # 步驟 6: 建置並推送 Docker 映像檔到 Artifact Registry
+      # 使用專案中的 Dockerfile 建置映像檔並推送到 Artifact Registry
+      - name: Build and push Docker image
+        run: |
+          # 設置完整的映像檔標籤
+          IMAGE_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}"
+          
+          # 建置 Docker 映像檔，使用 commit SHA 和 latest 標籤
+          echo "建置 Docker 映像檔..."
+          docker build -t ${IMAGE_TAG}:${{ github.sha }} .
+          docker build -t ${IMAGE_TAG}:latest .
+          
+          # 推送映像檔到 Artifact Registry
+          echo "推送映像檔到 Artifact Registry..."
+          docker push ${IMAGE_TAG}:${{ github.sha }}
+          docker push ${IMAGE_TAG}:latest
+
+      # 步驟 7: 部署到 Cloud Run
+      # 使用官方的 Google GitHub Action 部署服務到 Cloud Run
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          # Cloud Run 服務名稱
+          service: ${{ env.SERVICE_NAME }}
+          # 部署區域
+          region: ${{ env.REGION }}
+          # 要部署的 Docker 映像檔，使用 latest 標籤
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+          # 設置服務的標籤，便於管理和追蹤
+          labels: |
+            environment=production
+            deployed-by=github-actions
+            commit-sha=${{ github.sha }}
+          # 環境變數配置 - 根據重新設計的 env.yaml 文件
+          env_vars: |
+            ENV=production
+            VERSION=${{ github.sha }}
+            LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+            LINE_CHANNEL_SECRET=${{ secrets.LINE_CHANNEL_SECRET }}
+            YOUR_BOT_ID=${{ secrets.YOUR_BOT_ID }}
+            LINE_LOGIN_CHANNEL_ID=${{ secrets.LINE_LOGIN_CHANNEL_ID }}
+            LINE_LOGIN_CHANNEL_SECRET=${{ secrets.LINE_LOGIN_CHANNEL_SECRET }}
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
+            FLASK_ENV=${{ secrets.FLASK_ENV }}
+            FLASK_DEBUG=${{ secrets.FLASK_DEBUG }}
+            LIFF_CHANNEL_ID=${{ secrets.LIFF_CHANNEL_ID }}
+            LIFF_ID_CAMERA=${{ secrets.LIFF_ID_CAMERA }}
+            LIFF_ID_EDIT=${{ secrets.LIFF_ID_EDIT }}
+            LIFF_ID_PRESCRIPTION_REMINDER=${{ secrets.LIFF_ID_PRESCRIPTION_REMINDER }}
+            LIFF_ID_MANUAL_REMINDER=${{ secrets.LIFF_ID_MANUAL_REMINDER }}
+            LIFF_ID_HEALTH_FORM=${{ secrets.LIFF_ID_HEALTH_FORM }}
+            GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+            GEMINI_MODEL=${{ secrets.GEMINI_MODEL }}
+            GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}
+            GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+            SPEECH_TO_TEXT_ENABLED=${{ secrets.SPEECH_TO_TEXT_ENABLED }}
+            SPEECH_LANGUAGE_CODE=${{ secrets.SPEECH_LANGUAGE_CODE }}
+            SPEECH_ENCODING=${{ secrets.SPEECH_ENCODING }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASS }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_CHARSET=${{ secrets.DB_CHARSET }}
+            DB_POOL_SIZE=${{ secrets.DB_POOL_SIZE }}
+            DB_POOL_TIMEOUT=${{ secrets.DB_POOL_TIMEOUT }}
+            REMINDER_SECRET_TOKEN=${{ secrets.REMINDER_SECRET_TOKEN }}
+            API_RATE_LIMIT=${{ secrets.API_RATE_LIMIT }}
+            SESSION_TIMEOUT=${{ secrets.SESSION_TIMEOUT }}
+            VOICE_RECOGNITION_ENABLED=${{ secrets.VOICE_RECOGNITION_ENABLED }}
+            AI_ANALYSIS_ENABLED=${{ secrets.AI_ANALYSIS_ENABLED }}
+            FAMILY_MANAGEMENT_ENABLED=${{ secrets.FAMILY_MANAGEMENT_ENABLED }}
+            HEALTH_MONITORING_ENABLED=${{ secrets.HEALTH_MONITORING_ENABLED }}
+            REMINDER_CHECK_INTERVAL=${{ secrets.REMINDER_CHECK_INTERVAL }}
+            MAX_REMINDERS_PER_USER=${{ secrets.MAX_REMINDERS_PER_USER }}
+            REMINDER_ADVANCE_TIME=${{ secrets.REMINDER_ADVANCE_TIME }}
+            AI_RESPONSE_TIMEOUT=${{ secrets.AI_RESPONSE_TIMEOUT }}
+            MAX_AI_REQUESTS_PER_HOUR=${{ secrets.MAX_AI_REQUESTS_PER_HOUR }}
+            LOG_LEVEL=${{ secrets.LOG_LEVEL }}
+            HEALTH_CHECK_ENABLED=${{ secrets.HEALTH_CHECK_ENABLED }}
+            METRICS_ENABLED=${{ secrets.METRICS_ENABLED }}
+            CACHE_TYPE=${{ secrets.CACHE_TYPE }}
+            CACHE_DEFAULT_TIMEOUT=${{ secrets.CACHE_DEFAULT_TIMEOUT }}
+            APP_ENV=${{ secrets.APP_ENV }}
+            APP_VERSION=${{ secrets.APP_VERSION }}
+            APP_NAME=${{ secrets.APP_NAME }}
+            PORT=${{ secrets.PORT }}
+            HOST=${{ secrets.HOST }}
+            WORKERS=${{ secrets.WORKERS }}
+            WORKER_TIMEOUT=${{ secrets.WORKER_TIMEOUT }}
+            DEBUG_MODE=${{ secrets.DEBUG_MODE }}
+            TESTING=${{ secrets.TESTING }}
+          # Cloud Run 服務配置
+          cpu: 1              # CPU 配置 (1 vCPU)
+          memory: 1Gi           # 記憶體配置
+          concurrency: 80         # 並發請求數
+          timeout: 300            # 請求逾時時間（秒）
+          max_instances: 100      # 最大實例數
+          min_instances: 0        # 最小實例數（0 表示可以縮放到零）
+          # 允許未經身份驗證的請求（根據您的安全需求調整）
+          flags: --allow-unauthenticated
+
+      # 步驟 8: 輸出部署結果
+      # 顯示部署完成後的服務 URL
+      - name: Show deployment result
+        run: |
+          echo "🎉 部署完成！"
+          echo "服務 URL: ${{ steps.deploy.outputs.url }}"
+          echo "部署的映像檔: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest"
+          echo "Commit SHA: ${{ github.sha }}"
+
+      # 步驟 9: 健康檢查（可選）
+      # 驗證部署的服務是否正常運行
+      - name: Health check
+        run: |
+          echo "執行健康檢查..."
+          # 等待服務啟動
+          sleep 30
+          # 檢查服務是否回應（根據您的應用調整健康檢查端點）
+          curl -f ${{ steps.deploy.outputs.url }}/health || echo "健康檢查失敗，請檢查應用狀態"

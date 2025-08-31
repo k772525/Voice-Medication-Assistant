@@ -181,6 +181,7 @@ uploads/
 GITHUB_PUSH_GUIDE.md
 .md
 GCP 部署.md
+DEPLOYMENT_SETUP_GUIDE.md
 # Google Cloud 憑證
 *.json
 !requirements.txt
