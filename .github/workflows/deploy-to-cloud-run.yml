@@ -12,11 +12,11 @@ on:
 
 # 設置環境變數，便於統一管理配置資訊
 env:
-  PROJECT_ID: gcp1-462701                                  # GCP 專案 ID
-  SERVICE_NAME: linebot0831                                # Cloud Run 服務名稱
+  PROJECT_ID: runson-471605                                  # GCP 專案 ID
+  SERVICE_NAME: linebot0909                                # Cloud Run 服務名稱
   REGION: us-central1                                      # 部署區域
-  REPOSITORY: linebot-repo                                 # Artifact Registry 倉庫名稱
-  IMAGE_NAME: linebot0831                                  # Docker 映像檔名稱
+  REPOSITORY: artrunson                                 # Artifact Registry 倉庫名稱
+  IMAGE_NAME: linebot0909                                  # Docker 映像檔名稱
 
 jobs:
   deploy:
